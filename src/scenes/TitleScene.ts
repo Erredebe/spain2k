@@ -123,6 +123,15 @@ export class TitleScene extends Phaser.Scene {
         color: '#67e8f9',
       })
       .setOrigin(0.5);
+    const buildSha = import.meta.env.VITE_BUILD_SHA ?? 'dev';
+    const buildTime = import.meta.env.VITE_BUILD_TIME ?? 'local';
+    this.add
+      .text(1886, 1048, `build ${buildSha.slice(0, 8)} @ ${buildTime}`, {
+        fontFamily: 'Trebuchet MS',
+        fontSize: '14px',
+        color: '#94a3b8',
+      })
+      .setOrigin(1, 1);
 
     const controlsSummary = this.add
       .text(960, 580, '', {
@@ -467,4 +476,3 @@ export class TitleScene extends Phaser.Scene {
     });
   }
 }
-

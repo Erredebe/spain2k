@@ -9,6 +9,7 @@ import { ParticleSystem } from './ParticleSystem';
 import { AudioSystem } from './AudioSystem';
 import { UISystem } from './UISystem';
 import { RenderSystem } from './RenderSystem';
+import { LifecycleSystem } from './LifecycleSystem';
 import type { SystemFn } from './types';
 
 export const OrderedSystems: SystemFn[] = [
@@ -23,4 +24,5 @@ export const OrderedSystems: SystemFn[] = [
   AudioSystem,
   UISystem,
   RenderSystem,
+  LifecycleSystem,
 ];

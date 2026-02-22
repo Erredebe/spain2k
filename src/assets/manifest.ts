@@ -9,6 +9,7 @@ export const TEXTURE_KEYS = {
   players: ['player-heavy', 'player-technical', 'player-agile'],
   enemies: ['enemy-brawler', 'enemy-rusher', 'enemy-tank', 'enemy-armed', 'enemy-ranged'],
   boss: 'boss-cabecilla',
+  props: ['prop-crate', 'prop-train', 'prop-container-light'],
   effects: ['fx-impact', 'fx-spark', 'fx-special'],
   ui: ['ui-bar-bg', 'ui-bar-fill', 'ui-panel'],
   backgrounds: ['bg-market', 'bg-metro', 'bg-port', 'bg-gradient-warm', 'bg-gradient-cold'],
@@ -25,6 +26,9 @@ export const TEXTURE_INDEX: Record<string, number> = {
   'enemy-armed': 104,
   'enemy-ranged': 105,
   'boss-cabecilla': 201,
+  'prop-crate': 301,
+  'prop-train': 302,
+  'prop-container-light': 303,
 };
 
 export const TEXTURE_KEY_BY_INDEX: Record<number, string> = Object.entries(TEXTURE_INDEX).reduce(
@@ -61,6 +65,9 @@ export const ENTITY_TEXTURE_REFS: Record<string, TextureRuntimeRef> = {
   'enemy-armed': { textureKey: 'entities-anim', frame: resolveDefaultFrame('enemy-armed') },
   'enemy-ranged': { textureKey: 'entities-anim', frame: resolveDefaultFrame('enemy-ranged') },
   'boss-cabecilla': { textureKey: 'entities-anim', frame: resolveDefaultFrame('boss-cabecilla') },
+  'prop-crate': { textureKey: 'prop-crate' },
+  'prop-train': { textureKey: 'prop-train' },
+  'prop-container-light': { textureKey: 'prop-container-light' },
 };
 
 const IMAGE_ASSETS: Record<string, string> = {
@@ -73,6 +80,9 @@ const IMAGE_ASSETS: Record<string, string> = {
   'parallax-cloud-2': '/assets/parallax/cloudLayer2.png',
   'parallax-hills': '/assets/parallax/hillsLarge.png',
   'parallax-mountain': '/assets/parallax/mountainA.png',
+  'prop-crate': '/assets/images/props/prop-crate.png',
+  'prop-train': '/assets/images/props/prop-train.png',
+  'prop-container-light': '/assets/images/props/prop-container-light.png',
   'fx-impact': '/assets/images/effects/fx-impact.png',
   'fx-spark': '/assets/images/effects/fx-spark.png',
   'fx-special': '/assets/images/effects/fx-special.png',

@@ -133,8 +133,8 @@
     "durationMs": 3800
   },
   "interactables": [
-    { "id": "container-light-1", "type": "container-light", "x": 760, "y": 440, "hp": 120 },
-    { "id": "container-light-2", "type": "container-light", "x": 970, "y": 620, "hp": 120 }
+    { "id": "container-light-1", "type": "container-light", "visualKey": "prop-container-light", "x": 760, "y": 440, "hp": 120 },
+    { "id": "container-light-2", "type": "container-light", "visualKey": "prop-container-light", "x": 970, "y": 620, "hp": 120 }
   ],
   "hasBoss": true
 }

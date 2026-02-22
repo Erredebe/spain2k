@@ -36,7 +36,7 @@ export const createEcsContext = (
   inputBuffers: new Map(),
   animationRuntime: new Map(),
   activeAttacks: new Map(),
-  pendingDestroy: new Set<number>(),
+  pendingDestroy: new Map(),
   spawnRuntime: {
     currentWaveIndex: 0,
     pending: [],
@@ -59,6 +59,14 @@ export const createEcsContext = (
   remapArmed: false,
   controls: options.controls,
   inputSettings: options.input,
+  inputRuntime: {
+    hasFocus: typeof document === 'undefined' ? true : document.hasFocus(),
+    isVisible: typeof document === 'undefined' ? true : document.visibilityState === 'visible',
+    awaitingFocusClick: true,
+  },
+  debug: {
+    inputTrace: import.meta.env.DEV && import.meta.env.VITE_DEBUG_INPUT === '1',
+  },
   inputAssignments: {
     1: {
       playerIndex: 1,

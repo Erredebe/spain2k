@@ -56,3 +56,11 @@
 - [ ] Analog deadzone prevents drift and can be adjusted in title options.
 - [ ] Keyboard remap validates conflicts per player.
 - [ ] Remap and input options persist after restart.
+- [ ] First click focuses canvas and removes activation overlay.
+- [ ] Game auto-pauses on `blur`/hidden tab and resumes only by explicit player action.
+
+## Lifecycle / Visual Stability
+
+- [ ] No duplicated “ghost sprites” appear after `Title -> CharacterSelect -> Level`.
+- [ ] Defeated enemies and broken props are removed from ECS/runtime stores.
+- [ ] Props always render environment textures (`prop-crate`, `prop-train`, `prop-container-light`) and never character sprites.

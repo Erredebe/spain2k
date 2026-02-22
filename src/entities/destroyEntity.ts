@@ -12,6 +12,7 @@ export const destroyEntity = (context: GameEcsContext, entity: number): void => 
   context.hitboxes.delete(entity);
   context.hurtboxes.delete(entity);
   context.inputBuffers.delete(entity);
+  context.animationRuntime.delete(entity);
   context.activeAttacks.delete(entity);
   context.pendingDestroy.delete(entity);
   removeEntity(context.world, entity);

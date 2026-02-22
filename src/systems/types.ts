@@ -4,8 +4,11 @@ import type { EventBus } from '../core/events/eventBus';
 import type {
   BossDefinition,
   InputDeviceAssignment,
+  InputRuntimeState,
   LevelDefinition,
   Locale,
+  PendingDestroyReason,
+  RuntimeDebugFlags,
   SaveDataV1,
 } from '../config/types';
 import type {
@@ -54,7 +57,7 @@ export interface GameEcsContext {
   inputBuffers: Map<number, InputBuffer>;
   animationRuntime: Map<number, AnimationRuntimeState>;
   activeAttacks: Map<number, AttackRuntime>;
-  pendingDestroy: Set<number>;
+  pendingDestroy: Map<number, PendingDestroyReason>;
   spawnRuntime: SpawnRuntime;
   levelRuntime: LevelRuntime;
   selectedCharacters: [string, string];
@@ -67,6 +70,8 @@ export interface GameEcsContext {
   remapArmed: boolean;
   controls: SaveDataV1['controls'];
   inputSettings: SaveDataV1['input'];
+  inputRuntime: InputRuntimeState;
+  debug: RuntimeDebugFlags;
   inputAssignments: Record<1 | 2, InputDeviceAssignment>;
   pendingHits: Array<{ attacker: number; defender: number; hitbox: HitboxRuntime }>;
 }

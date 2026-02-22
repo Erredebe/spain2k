@@ -442,6 +442,45 @@
     "attributionText": "CC0. Attribution appreciated but not required."
   },
   {
+    "assetId": "images-props-prop-container-light-png",
+    "name": "prop-container-light.png",
+    "source": "Kenney",
+    "author": "Kenney",
+    "license": "CC0",
+    "usage": "Environmental props for stage interaction and set dressing.",
+    "url": "https://kenney.nl/assets/background-elements-redux",
+    "localPath": "public/assets/images/props/prop-container-light.png",
+    "sha256": "2af33256e78ad389bddcacba96ce365eab6d5717d99d2b5c30a2d08f929a9daa",
+    "attributionRequired": false,
+    "attributionText": "Kenney assets are licensed under CC0."
+  },
+  {
+    "assetId": "images-props-prop-crate-png",
+    "name": "prop-crate.png",
+    "source": "Kenney",
+    "author": "Kenney",
+    "license": "CC0",
+    "usage": "Environmental props for stage interaction and set dressing.",
+    "url": "https://kenney.nl/assets/background-elements-redux",
+    "localPath": "public/assets/images/props/prop-crate.png",
+    "sha256": "424c21c38336b310b0d0bc4234fe60a78febf10855f1010afbf7c4bdbc1034aa",
+    "attributionRequired": false,
+    "attributionText": "Kenney assets are licensed under CC0."
+  },
+  {
+    "assetId": "images-props-prop-train-png",
+    "name": "prop-train.png",
+    "source": "Kenney",
+    "author": "Kenney",
+    "license": "CC0",
+    "usage": "Environmental props for stage interaction and set dressing.",
+    "url": "https://kenney.nl/assets/background-elements-redux",
+    "localPath": "public/assets/images/props/prop-train.png",
+    "sha256": "2af33256e78ad389bddcacba96ce365eab6d5717d99d2b5c30a2d08f929a9daa",
+    "attributionRequired": false,
+    "attributionText": "Kenney assets are licensed under CC0."
+  },
+  {
     "assetId": "images-ui-ui-bar-bg-png",
     "name": "ui-bar-bg.png",
     "source": "Kenney",

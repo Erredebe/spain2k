@@ -120,3 +120,14 @@ Progress and settings are stored in `localStorage`:
 - `docs/ADD_LEVEL.md`
 - `docs/ASSET_LICENSES.md`
 - `docs/QA_CHECKLIST.md`
+
+## Deploy Hotfix Checklist (Netlify)
+
+- Netlify build command is locked in `netlify.toml`:
+  - `npm ci && npm run lint && npm test && npm run build`
+- Published directory: `dist`
+- Build metadata is injected at build time and rendered in title screen:
+  - `VITE_BUILD_SHA`
+  - `VITE_BUILD_TIME`
+- If a hotfix does not appear in production, clear Netlify cache and redeploy:
+  - Site settings -> Build & deploy -> Clear cache and deploy site

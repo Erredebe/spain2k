@@ -20,6 +20,7 @@
   - HorrorPen (CC-BY) - Game Music Loop Rising / Intense
   - qubodup (CC0) - Dark Shrine Loop
 - UI, parallax and SFX (CC0): Kenney
+- Environmental props (CC0): Kenney Background Elements Redux
 
 Full legal inventory (checksums + local paths):
 - `src/config/licenses/assets-licenses.json`

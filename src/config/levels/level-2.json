@@ -133,8 +133,8 @@
     "durationMs": 3200
   },
   "interactables": [
-    { "id": "train", "type": "train", "x": 1040, "y": 500, "hp": 9999 },
-    { "id": "crate-4", "type": "crate", "x": 900, "y": 560, "hp": 70 }
+    { "id": "train", "type": "train", "visualKey": "prop-train", "x": 1040, "y": 500, "hp": 9999 },
+    { "id": "crate-4", "type": "crate", "visualKey": "prop-crate", "x": 900, "y": 560, "hp": 70 }
   ],
   "hasBoss": false
 }

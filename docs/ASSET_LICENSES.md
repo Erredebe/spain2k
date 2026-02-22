@@ -45,6 +45,15 @@ Runtime extraction sources manifest:
 - Kenney Background Elements Redux (CC0):
   - https://kenney.nl/assets/background-elements-redux
 
+### Environment Props (CC0)
+
+- Kenney Background Elements Redux (CC0):
+  - https://kenney.nl/assets/background-elements-redux
+  - Runtime props used:
+    - `public/assets/images/props/prop-crate.png`
+    - `public/assets/images/props/prop-train.png`
+    - `public/assets/images/props/prop-container-light.png`
+
 ### Music (CC-BY / CC0)
 
 - Game Music Loop - Rising (HorrorPen, CC-BY):

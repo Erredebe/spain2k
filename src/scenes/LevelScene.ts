@@ -30,6 +30,10 @@ export class LevelScene extends Phaser.Scene {
   private pausePadPressedP2 = false;
   private pauseEscKey: Phaser.Input.Keyboard.Key | null = null;
   private pauseTabKey: Phaser.Input.Keyboard.Key | null = null;
+  private needsManualResume = false;
+  private onWindowBlur: (() => void) | null = null;
+  private onWindowFocus: (() => void) | null = null;
+  private onVisibilityChange: (() => void) | null = null;
 
   constructor() {
     super(SceneKeys.Level);
@@ -70,7 +74,11 @@ export class LevelScene extends Phaser.Scene {
       controls: save.controls,
       input: save.input,
     });
+    this.context.inputRuntime.awaitingFocusClick = !(
+      typeof window !== 'undefined' && window.__SPAIN2K_RUNTIME__?.focusActivated
+    );
     this.scheduler = new SystemScheduler(OrderedSystems);
+    this.bindWindowFocusHandlers();
 
     const player1 = createPlayer(this.context, 1, session.selectedCharacters[0], 360, 470);
     const player1Name = this.context.entitiesMeta.get(player1)?.displayName ?? 'P1';
@@ -122,7 +130,7 @@ export class LevelScene extends Phaser.Scene {
     this.context.deltaMs = Math.min(delta, 33);
 
     if (this.consumePauseShortcut()) {
-      this.togglePause();
+      this.togglePause(false);
     }
     if (this.paused) {
       this.context.hud.update(this.context.nowMs);
@@ -280,8 +288,14 @@ export class LevelScene extends Phaser.Scene {
     return keyboardPressed || gamepadToggle;
   }
 
-  private togglePause(): void {
+  private togglePause(fromBlur: boolean): void {
     this.paused = !this.paused;
+    if (fromBlur && this.paused) {
+      this.needsManualResume = true;
+    }
+    if (!this.paused) {
+      this.needsManualResume = false;
+    }
     if (!this.pauseOverlay) {
       const panel = this.add.rectangle(960, 540, 980, 420, 0x020617, 0.82).setDepth(1400);
       panel.setStrokeStyle(2, 0x67e8f9, 0.6);
@@ -313,16 +327,86 @@ export class LevelScene extends Phaser.Scene {
       this.pauseOverlay = this.add.container(0, 0, [panel, title, body]).setVisible(false);
     }
     this.pauseOverlay.setVisible(this.paused);
+    const overlayBody = this.pauseOverlay.list[2] as Phaser.GameObjects.Text;
+    if (this.needsManualResume) {
+      overlayBody.setText(
+        this.context?.locale === 'es'
+          ? 'Juego pausado por perdida de foco.\nPulsa ESC/TAB o boton 9 para reanudar.'
+          : 'Game paused after focus loss.\nPress ESC/TAB or button 9 to resume.',
+      );
+    } else {
+      overlayBody.setText(
+        this.context?.locale === 'es'
+          ? 'ESC/TAB o boton 9 para continuar\nRemapeo y deadzone: menu principal (tecla O)'
+          : 'ESC/TAB or button 9 to continue\nRemap and deadzone: title menu (key O)',
+      );
+    }
     this.context?.hud.showToast(this.paused ? 'PAUSE' : 'RESUME', 600);
   }
 
+  private bindWindowFocusHandlers(): void {
+    if (!this.context) {
+      return;
+    }
+    this.onWindowBlur = () => {
+      if (!this.context) {
+        return;
+      }
+      this.context.inputRuntime.hasFocus = false;
+      if (!this.paused) {
+        this.togglePause(true);
+      } else {
+        this.needsManualResume = true;
+      }
+    };
+    this.onWindowFocus = () => {
+      if (!this.context) {
+        return;
+      }
+      this.context.inputRuntime.hasFocus = true;
+      this.context.hud.showToast(
+        this.context.locale === 'es'
+          ? 'Foco recuperado. Reanuda manualmente.'
+          : 'Focus restored. Resume manually.',
+        950,
+      );
+    };
+    this.onVisibilityChange = () => {
+      if (!this.context) {
+        return;
+      }
+      const isVisible = document.visibilityState === 'visible';
+      this.context.inputRuntime.isVisible = isVisible;
+      if (!isVisible && !this.paused) {
+        this.togglePause(true);
+      }
+    };
+    window.addEventListener('blur', this.onWindowBlur);
+    window.addEventListener('focus', this.onWindowFocus);
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+  }
+
   shutdown(): void {
+    if (this.onWindowBlur) {
+      window.removeEventListener('blur', this.onWindowBlur);
+    }
+    if (this.onWindowFocus) {
+      window.removeEventListener('focus', this.onWindowFocus);
+    }
+    if (this.onVisibilityChange) {
+      document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    }
+    this.onWindowBlur = null;
+    this.onWindowFocus = null;
+    this.onVisibilityChange = null;
     this.pauseOverlay?.destroy(true);
     this.pauseOverlay = null;
+    this.context?.eventBus.clear();
     this.context?.hud.destroy();
     this.context = null;
     this.scheduler = null;
     this.paused = false;
+    this.needsManualResume = false;
     this.pausePadPressedP1 = false;
     this.pausePadPressedP2 = false;
   }

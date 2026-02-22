@@ -1,7 +1,8 @@
-import { defineQuery } from 'bitecs';
+import { defineQuery, hasComponent } from 'bitecs';
 import {
   ActiveEntityComponent,
   HealthComponent,
+  PlayerTag,
   SpriteComponent,
   TransformComponent,
   RenderObjectComponent,
@@ -55,8 +56,11 @@ export const RenderSystem: SystemFn = (context) => {
       },
       GAME_BALANCE.performance.cullingPadding,
     );
-    render.sprite.setVisible(visible && SpriteComponent.visible[entity] === 1);
-    render.shadow.setVisible(visible && HealthComponent.isAlive[entity] === 1);
+    const isAlive = HealthComponent.isAlive[entity] === 1;
+    const isPlayer = hasComponent(context.world, PlayerTag, entity);
+    const allowDeadRender = isPlayer;
+    render.sprite.setVisible(visible && SpriteComponent.visible[entity] === 1 && (isAlive || allowDeadRender));
+    render.shadow.setVisible(visible && isAlive);
 
     render.sprite.setPosition(x, y);
     render.sprite.setDepth(

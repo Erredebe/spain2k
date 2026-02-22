@@ -1,4 +1,4 @@
-import type { ControlProfile } from './types';
+import type { ControlProfile, PlayerAction, SaveDataV1 } from './types';
 
 const player1Bindings: ControlProfile = {
   playerIndex: 1,
@@ -78,3 +78,22 @@ export const DEFAULT_CONTROLS = {
   p1: player1Bindings,
   p2: player2Bindings,
 } as const;
+
+const REQUIRED_ACTIONS: PlayerAction[] = [
+  'move-left',
+  'move-right',
+  'move-up',
+  'move-down',
+  'pause',
+];
+
+export const validateControlProfile = (profile: ControlProfile): boolean => {
+  if (!profile.bindings.length) {
+    return false;
+  }
+  const actionSet = new Set(profile.bindings.map((binding) => binding.action));
+  return REQUIRED_ACTIONS.every((action) => actionSet.has(action));
+};
+
+export const validateControls = (controls: SaveDataV1['controls']): boolean =>
+  validateControlProfile(controls.p1) && validateControlProfile(controls.p2);

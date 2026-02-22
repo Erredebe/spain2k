@@ -39,6 +39,7 @@ src/
 9. `AudioSystem`
 10. `UISystem`
 11. `RenderSystem`
+12. `LifecycleSystem`
 
 ## ECS Runtime
 
@@ -48,6 +49,7 @@ src/
 - Runtime stores:
   - `animationRuntime` (state/clip/frame cursor by entity)
   - `inputAssignments` (active device by player, gamepad preference, last input timestamp)
+  - `pendingDestroy` (entity cleanup queue with reason tags)
 
 ## Scene Responsibilities
 
@@ -55,7 +57,7 @@ src/
 - `PreloadScene`: loads manifest assets and fails if any required key is missing.
 - `TitleScene`: title UX and session toggles.
 - `CharacterSelectScene`: 1P/2P character selection.
-- `LevelScene`: level orchestration, camera, ECS scheduler.
+- `LevelScene`: level orchestration, camera, ECS scheduler, focus/visibility pause guards.
 - `ResultScene`: result + credits.
 
 ## Asset Runtime

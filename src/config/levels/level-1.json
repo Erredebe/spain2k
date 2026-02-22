@@ -115,9 +115,9 @@
     "durationMs": 3500
   },
   "interactables": [
-    { "id": "crate-1", "type": "crate", "x": 730, "y": 540, "hp": 55 },
-    { "id": "crate-2", "type": "crate", "x": 860, "y": 580, "hp": 55 },
-    { "id": "crate-3", "type": "crate", "x": 1010, "y": 520, "hp": 70 }
+    { "id": "crate-1", "type": "crate", "visualKey": "prop-crate", "x": 730, "y": 540, "hp": 55 },
+    { "id": "crate-2", "type": "crate", "visualKey": "prop-crate", "x": 860, "y": 580, "hp": 55 },
+    { "id": "crate-3", "type": "crate", "visualKey": "prop-crate", "x": 1010, "y": 520, "hp": 70 }
   ],
   "hasBoss": false
 }

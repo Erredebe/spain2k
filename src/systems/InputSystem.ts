@@ -9,6 +9,17 @@ import type { SystemFn } from './types';
 
 const inputQuery = defineQuery([ActiveEntityComponent, InputComponent, MovementComponent]);
 const keyCache = new Map<string, Phaser.Input.Keyboard.Key>();
+const sceneKeyCacheBound = new Set<string>();
+const debugLogThrottleByEntity = new Map<number, number>();
+
+const clearKeyCacheForScene = (sceneKey: string): void => {
+  const prefix = `${sceneKey}:`;
+  for (const key of Array.from(keyCache.keys())) {
+    if (key.startsWith(prefix)) {
+      keyCache.delete(key);
+    }
+  }
+};
 
 const getKey = (scene: Phaser.Scene, keyName: string): Phaser.Input.Keyboard.Key | null => {
   if (!scene.input.keyboard) {
@@ -39,6 +50,17 @@ const axisValue = (gamepad: Phaser.Input.Gamepad.Gamepad | undefined, axisIndex:
   }
   return axis.value ?? 0;
 };
+
+const neutralSnapshot = (): InputSnapshot => ({
+  moveX: 0,
+  moveY: 0,
+  jumpPressed: false,
+  lightPressed: false,
+  heavyPressed: false,
+  grabPressed: false,
+  specialPressed: false,
+  pausePressed: false,
+});
 
 const resolveSnapshot = (
   context: Parameters<SystemFn>[0],
@@ -119,8 +141,19 @@ const attackFromSnapshot = (snapshot: InputSnapshot): PlayerAttackKind | null =>
 };
 
 export const InputSystem: SystemFn = (context) => {
-  if (!context.scene.input.keyboard) {
+  const hasKeyboard = Boolean(context.scene.input.keyboard);
+  const hasGamepadInput = (context.scene.input.gamepad?.gamepads?.length ?? 0) > 0;
+  if (!hasKeyboard && !hasGamepadInput) {
     return;
+  }
+
+  const sceneKey = context.scene.sys.settings.key;
+  if (!sceneKeyCacheBound.has(sceneKey)) {
+    sceneKeyCacheBound.add(sceneKey);
+    context.scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      clearKeyCacheForScene(sceneKey);
+      sceneKeyCacheBound.delete(sceneKey);
+    });
   }
 
   const gamepads = context.scene.input.gamepad?.gamepads ?? [];
@@ -133,7 +166,10 @@ export const InputSystem: SystemFn = (context) => {
 
     const assignment = context.inputAssignments[playerIndex];
     const gamepad = gamepads[assignment.preferredGamepadIndex];
-    const snapshot = resolveSnapshot(context, playerIndex, gamepad);
+    const snapshot =
+      context.inputRuntime.hasFocus && context.inputRuntime.isVisible
+        ? resolveSnapshot(context, playerIndex, gamepad)
+        : neutralSnapshot();
     const inputBuffer = context.inputBuffers.get(entity);
     if (!inputBuffer) {
       continue;
@@ -157,6 +193,19 @@ export const InputSystem: SystemFn = (context) => {
     }
     if (snapshot.pausePressed && !previousPause) {
       context.eventBus.emit('ui:pause-toggled', { paused: true });
+    }
+
+    if (context.debug.inputTrace) {
+      const lastLogAt = debugLogThrottleByEntity.get(entity) ?? 0;
+      if (context.nowMs - lastLogAt > 450) {
+        debugLogThrottleByEntity.set(entity, context.nowMs);
+        const debugMoveX = snapshot.moveX.toFixed(2);
+        const debugMoveY = snapshot.moveY.toFixed(2);
+        // eslint-disable-next-line no-console
+        console.log(
+          `[InputTrace] P${playerIndex} device=${assignment.activeDevice} move=(${debugMoveX},${debugMoveY}) light=${snapshot.lightPressed} heavy=${snapshot.heavyPressed}`,
+        );
+      }
     }
   }
 

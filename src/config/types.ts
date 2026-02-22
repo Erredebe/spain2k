@@ -4,6 +4,12 @@ export type GameplayDifficulty = 'adaptive-normal';
 
 export type InputDeviceType = 'keyboard' | 'gamepad';
 
+export type PendingDestroyReason =
+  | 'enemy-defeated'
+  | 'prop-broken'
+  | 'level-reset'
+  | 'manual-despawn';
+
 export type AttackKind =
   | 'light-1'
   | 'light-2'
@@ -168,6 +174,7 @@ export interface MidLevelEvent {
 export interface InteractableDefinition {
   id: string;
   type: 'crate' | 'train' | 'container-light';
+  visualKey?: 'prop-crate' | 'prop-train' | 'prop-container-light';
   x: number;
   y: number;
   hp: number;
@@ -304,6 +311,16 @@ export interface InputDeviceAssignment {
   preferredGamepadIndex: number;
   activeDevice: InputDeviceType;
   lastInputAtMs: number;
+}
+
+export interface InputRuntimeState {
+  hasFocus: boolean;
+  isVisible: boolean;
+  awaitingFocusClick: boolean;
+}
+
+export interface RuntimeDebugFlags {
+  inputTrace: boolean;
 }
 
 export interface AssetManifest {

@@ -1,4 +1,4 @@
-import { DEFAULT_CONTROLS } from '../config/input';
+import { DEFAULT_CONTROLS, validateControls } from '../config/input';
 import type { AccessibilitySettings, Locale, SaveDataV1 } from '../config/types';
 
 const SAVE_KEY = 'spain2k.save.v1';
@@ -55,6 +55,30 @@ export const loadSave = (): SaveDataV1 => {
     if (parsed.version !== 1) {
       return initial;
     }
+    const parsedControls = parsed.controls as SaveDataV1['controls'] | undefined;
+    const controlsValid = parsedControls ? validateControls(parsedControls) : false;
+    const resolvedControls: SaveDataV1['controls'] =
+      controlsValid && parsedControls
+        ? {
+            p1: {
+              playerIndex: 1,
+              bindings: parsedControls.p1.bindings.map((binding) => ({ ...binding })),
+            },
+            p2: {
+              playerIndex: 2,
+              bindings: parsedControls.p2.bindings.map((binding) => ({ ...binding })),
+            },
+          }
+        : {
+            p1: {
+              playerIndex: 1,
+              bindings: initial.controls.p1.bindings.map((binding) => ({ ...binding })),
+            },
+            p2: {
+              playerIndex: 2,
+              bindings: initial.controls.p2.bindings.map((binding) => ({ ...binding })),
+            },
+          };
     return {
       ...initial,
       ...parsed,
@@ -62,20 +86,7 @@ export const loadSave = (): SaveDataV1 => {
         ...initial.accessibility,
         ...parsed.accessibility,
       },
-      controls: {
-        p1: {
-          playerIndex: 1,
-          bindings: parsed.controls?.p1?.bindings?.length
-            ? parsed.controls.p1.bindings.map((binding) => ({ ...binding }))
-            : initial.controls.p1.bindings.map((binding) => ({ ...binding })),
-        },
-        p2: {
-          playerIndex: 2,
-          bindings: parsed.controls?.p2?.bindings?.length
-            ? parsed.controls.p2.bindings.map((binding) => ({ ...binding }))
-            : initial.controls.p2.bindings.map((binding) => ({ ...binding })),
-        },
-      },
+      controls: resolvedControls,
       input: {
         ...initial.input,
         ...parsed.input,

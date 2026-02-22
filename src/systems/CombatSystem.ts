@@ -1,11 +1,14 @@
-import { defineQuery } from 'bitecs';
+import { defineQuery, hasComponent } from 'bitecs';
 import {
   ActiveEntityComponent,
   AnimationComponent,
   CombatComponent,
+  EnemyTag,
   HealthComponent,
   InputComponent,
+  InteractableTag,
   MovementComponent,
+  PlayerTag,
   StateMachineComponent,
   TransformComponent,
 } from '../components';
@@ -140,6 +143,17 @@ const applyHit = (
   HealthComponent.hp[defender] = Math.max(0, HealthComponent.hp[defender] - damage);
   if (HealthComponent.hp[defender] <= 0) {
     HealthComponent.isAlive[defender] = 0;
+    const isPlayer = hasComponent(context.world, PlayerTag, defender);
+    const isEnemy = hasComponent(context.world, EnemyTag, defender);
+    const isProp = hasComponent(context.world, InteractableTag, defender);
+    if (isEnemy) {
+      HealthComponent.downUntilMs[defender] = context.nowMs + 950;
+    } else if (isPlayer) {
+      HealthComponent.downUntilMs[defender] = context.nowMs + 1_350;
+    } else if (isProp) {
+      HealthComponent.downUntilMs[defender] = context.nowMs;
+      context.pendingDestroy.set(defender, 'prop-broken');
+    }
   }
 
   const attackerMeta = context.entitiesMeta.get(attacker);
