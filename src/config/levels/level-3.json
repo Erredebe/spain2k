@@ -1,0 +1,140 @@
+{
+  "id": "level-3-port",
+  "displayNameEs": "Puerto Industrial",
+  "displayNameEn": "Industrial Port",
+  "introEs": "Contenedores y grúas dominan la costa nocturna.",
+  "introEn": "Containers and cranes dominate the night shoreline.",
+  "musicKey": "port-theme",
+  "backgroundStyle": "port",
+  "warmLighting": false,
+  "waves": [
+    {
+      "id": "l3w1",
+      "trigger": "auto",
+      "maxConcurrent": 4,
+      "spawns": [
+        {
+          "enemyId": "enemy-brawler",
+          "count": 3,
+          "spawnDelayMs": 700,
+          "spawnPoints": [
+            { "x": 1520, "y": 410 },
+            { "x": 1630, "y": 560 }
+          ]
+        },
+        {
+          "enemyId": "enemy-rusher",
+          "count": 2,
+          "spawnDelayMs": 700,
+          "spawnPoints": [{ "x": 1550, "y": 500 }]
+        }
+      ]
+    },
+    {
+      "id": "l3w2",
+      "trigger": "on-clear",
+      "maxConcurrent": 5,
+      "spawns": [
+        {
+          "enemyId": "enemy-armed",
+          "count": 3,
+          "spawnDelayMs": 850,
+          "spawnPoints": [
+            { "x": 1620, "y": 430 },
+            { "x": 1690, "y": 590 }
+          ]
+        },
+        {
+          "enemyId": "enemy-ranged",
+          "count": 2,
+          "spawnDelayMs": 1200,
+          "spawnPoints": [{ "x": 1760, "y": 450 }]
+        }
+      ]
+    },
+    {
+      "id": "l3w3",
+      "trigger": "on-clear",
+      "maxConcurrent": 6,
+      "spawns": [
+        {
+          "enemyId": "enemy-tank",
+          "count": 2,
+          "spawnDelayMs": 1150,
+          "spawnPoints": [
+            { "x": 1570, "y": 470 },
+            { "x": 1680, "y": 620 }
+          ]
+        },
+        {
+          "enemyId": "enemy-rusher",
+          "count": 3,
+          "spawnDelayMs": 550,
+          "spawnPoints": [{ "x": 1760, "y": 410 }]
+        }
+      ]
+    },
+    {
+      "id": "l3w4",
+      "trigger": "on-clear",
+      "maxConcurrent": 6,
+      "spawns": [
+        {
+          "enemyId": "enemy-ranged",
+          "count": 3,
+          "spawnDelayMs": 980,
+          "spawnPoints": [
+            { "x": 1800, "y": 430 },
+            { "x": 1830, "y": 620 }
+          ]
+        },
+        {
+          "enemyId": "enemy-armed",
+          "count": 2,
+          "spawnDelayMs": 820,
+          "spawnPoints": [{ "x": 1660, "y": 520 }]
+        }
+      ]
+    },
+    {
+      "id": "l3w5",
+      "trigger": "on-clear",
+      "maxConcurrent": 6,
+      "spawns": [
+        {
+          "enemyId": "enemy-brawler",
+          "count": 3,
+          "spawnDelayMs": 620,
+          "spawnPoints": [
+            { "x": 1680, "y": 420 },
+            { "x": 1780, "y": 580 }
+          ]
+        },
+        {
+          "enemyId": "enemy-tank",
+          "count": 2,
+          "spawnDelayMs": 1000,
+          "spawnPoints": [{ "x": 1840, "y": 500 }]
+        }
+      ]
+    },
+    {
+      "id": "l3w6",
+      "trigger": "on-clear",
+      "maxConcurrent": 1,
+      "spawns": []
+    }
+  ],
+  "midEvent": {
+    "id": "port-blackout",
+    "triggerAfterWaveId": "l3w3",
+    "subtitleEs": "Las luces se apagan y suena una sirena en el muelle.",
+    "subtitleEn": "Lights cut out and a siren screams across the dock.",
+    "durationMs": 3800
+  },
+  "interactables": [
+    { "id": "container-light-1", "type": "container-light", "x": 760, "y": 440, "hp": 120 },
+    { "id": "container-light-2", "type": "container-light", "x": 970, "y": 620, "hp": 120 }
+  ],
+  "hasBoss": true
+}

@@ -1,0 +1,140 @@
+{
+  "id": "level-2-metro",
+  "displayNameEs": "Metro",
+  "displayNameEn": "Metro",
+  "introEs": "El andén vibra mientras se acercan luces frías y acero.",
+  "introEn": "The platform trembles as cold lights and steel approach.",
+  "musicKey": "metro-theme",
+  "backgroundStyle": "metro",
+  "warmLighting": false,
+  "waves": [
+    {
+      "id": "l2w1",
+      "trigger": "auto",
+      "maxConcurrent": 4,
+      "spawns": [
+        {
+          "enemyId": "enemy-rusher",
+          "count": 3,
+          "spawnDelayMs": 650,
+          "spawnPoints": [
+            { "x": 1500, "y": 410 },
+            { "x": 1620, "y": 560 }
+          ]
+        },
+        {
+          "enemyId": "enemy-brawler",
+          "count": 2,
+          "spawnDelayMs": 900,
+          "spawnPoints": [{ "x": 1480, "y": 500 }]
+        }
+      ]
+    },
+    {
+      "id": "l2w2",
+      "trigger": "on-clear",
+      "maxConcurrent": 4,
+      "spawns": [
+        {
+          "enemyId": "enemy-ranged",
+          "count": 2,
+          "spawnDelayMs": 1100,
+          "spawnPoints": [
+            { "x": 1680, "y": 410 },
+            { "x": 1700, "y": 610 }
+          ]
+        },
+        {
+          "enemyId": "enemy-rusher",
+          "count": 2,
+          "spawnDelayMs": 650,
+          "spawnPoints": [{ "x": 1510, "y": 520 }]
+        }
+      ]
+    },
+    {
+      "id": "l2w3",
+      "trigger": "on-clear",
+      "maxConcurrent": 5,
+      "spawns": [
+        {
+          "enemyId": "enemy-armed",
+          "count": 3,
+          "spawnDelayMs": 900,
+          "spawnPoints": [
+            { "x": 1530, "y": 410 },
+            { "x": 1660, "y": 560 }
+          ]
+        },
+        {
+          "enemyId": "enemy-brawler",
+          "count": 2,
+          "spawnDelayMs": 700,
+          "spawnPoints": [{ "x": 1600, "y": 500 }]
+        }
+      ]
+    },
+    {
+      "id": "l2w4",
+      "trigger": "on-clear",
+      "maxConcurrent": 5,
+      "spawns": [
+        {
+          "enemyId": "enemy-tank",
+          "count": 2,
+          "spawnDelayMs": 1100,
+          "spawnPoints": [
+            { "x": 1490, "y": 450 },
+            { "x": 1600, "y": 590 }
+          ]
+        },
+        {
+          "enemyId": "enemy-ranged",
+          "count": 2,
+          "spawnDelayMs": 1300,
+          "spawnPoints": [{ "x": 1730, "y": 430 }]
+        }
+      ]
+    },
+    {
+      "id": "l2w5",
+      "trigger": "on-clear",
+      "maxConcurrent": 6,
+      "spawns": [
+        {
+          "enemyId": "enemy-rusher",
+          "count": 3,
+          "spawnDelayMs": 500,
+          "spawnPoints": [
+            { "x": 1480, "y": 390 },
+            { "x": 1710, "y": 630 }
+          ]
+        },
+        {
+          "enemyId": "enemy-armed",
+          "count": 2,
+          "spawnDelayMs": 850,
+          "spawnPoints": [{ "x": 1600, "y": 510 }]
+        },
+        {
+          "enemyId": "enemy-tank",
+          "count": 1,
+          "spawnDelayMs": 1400,
+          "spawnPoints": [{ "x": 1760, "y": 560 }]
+        }
+      ]
+    }
+  ],
+  "midEvent": {
+    "id": "metro-train-pass",
+    "triggerAfterWaveId": "l2w3",
+    "subtitleEs": "Un tren atraviesa la estación y corta la visión.",
+    "subtitleEn": "A train cuts through the station and blocks your sight.",
+    "durationMs": 3200
+  },
+  "interactables": [
+    { "id": "train", "type": "train", "x": 1040, "y": 500, "hp": 9999 },
+    { "id": "crate-4", "type": "crate", "x": 900, "y": 560, "hp": 70 }
+  ],
+  "hasBoss": false
+}

@@ -1,0 +1,123 @@
+{
+  "id": "level-1-market",
+  "displayNameEs": "Mercado Nocturno",
+  "displayNameEn": "Night Market",
+  "introEs": "Las calles hierven bajo neones y toldos de lona.",
+  "introEn": "The streets burn beneath neon lights and canvas awnings.",
+  "musicKey": "market-theme",
+  "backgroundStyle": "market",
+  "warmLighting": true,
+  "waves": [
+    {
+      "id": "l1w1",
+      "trigger": "auto",
+      "maxConcurrent": 3,
+      "spawns": [
+        {
+          "enemyId": "enemy-brawler",
+          "count": 3,
+          "spawnDelayMs": 800,
+          "spawnPoints": [
+            { "x": 1370, "y": 410 },
+            { "x": 1450, "y": 540 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l1w2",
+      "trigger": "on-clear",
+      "maxConcurrent": 4,
+      "spawns": [
+        {
+          "enemyId": "enemy-rusher",
+          "count": 4,
+          "spawnDelayMs": 700,
+          "spawnPoints": [
+            { "x": 1480, "y": 390 },
+            { "x": 1600, "y": 560 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l1w3",
+      "trigger": "on-clear",
+      "maxConcurrent": 4,
+      "spawns": [
+        {
+          "enemyId": "enemy-brawler",
+          "count": 2,
+          "spawnDelayMs": 450,
+          "spawnPoints": [
+            { "x": 1500, "y": 450 },
+            { "x": 1580, "y": 580 }
+          ]
+        },
+        {
+          "enemyId": "enemy-armed",
+          "count": 2,
+          "spawnDelayMs": 1200,
+          "spawnPoints": [{ "x": 1410, "y": 380 }]
+        }
+      ]
+    },
+    {
+      "id": "l1w4",
+      "trigger": "on-clear",
+      "maxConcurrent": 5,
+      "spawns": [
+        {
+          "enemyId": "enemy-ranged",
+          "count": 2,
+          "spawnDelayMs": 1200,
+          "spawnPoints": [
+            { "x": 1620, "y": 390 },
+            { "x": 1550, "y": 620 }
+          ]
+        },
+        {
+          "enemyId": "enemy-rusher",
+          "count": 2,
+          "spawnDelayMs": 650,
+          "spawnPoints": [{ "x": 1450, "y": 490 }]
+        }
+      ]
+    },
+    {
+      "id": "l1w5",
+      "trigger": "on-clear",
+      "maxConcurrent": 5,
+      "spawns": [
+        {
+          "enemyId": "enemy-tank",
+          "count": 2,
+          "spawnDelayMs": 1100,
+          "spawnPoints": [
+            { "x": 1480, "y": 440 },
+            { "x": 1530, "y": 590 }
+          ]
+        },
+        {
+          "enemyId": "enemy-brawler",
+          "count": 2,
+          "spawnDelayMs": 500,
+          "spawnPoints": [{ "x": 1660, "y": 470 }]
+        }
+      ]
+    }
+  ],
+  "midEvent": {
+    "id": "market-ambush",
+    "triggerAfterWaveId": "l1w2",
+    "subtitleEs": "Un grupo rodea la plaza entre puestos cerrados.",
+    "subtitleEn": "A squad surrounds the square between closed stalls.",
+    "durationMs": 3500
+  },
+  "interactables": [
+    { "id": "crate-1", "type": "crate", "x": 730, "y": 540, "hp": 55 },
+    { "id": "crate-2", "type": "crate", "x": 860, "y": 580, "hp": 55 },
+    { "id": "crate-3", "type": "crate", "x": 1010, "y": 520, "hp": 70 }
+  ],
+  "hasBoss": false
+}

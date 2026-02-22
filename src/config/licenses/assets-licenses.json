@@ -1,0 +1,29 @@
+[
+  {
+    "assetId": "procedural-sprites-v1",
+    "name": "Procedural HD Character Sheets",
+    "source": "Project Internal Generator",
+    "author": "SPAIN 2K Team",
+    "license": "MIT",
+    "usage": "Playable characters, enemies and boss generated at runtime.",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  {
+    "assetId": "procedural-backgrounds-v1",
+    "name": "Procedural Modern 2.5D Background Toolkit",
+    "source": "Project Internal Generator",
+    "author": "SPAIN 2K Team",
+    "license": "MIT",
+    "usage": "Market, metro and industrial port backgrounds with parallax.",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  {
+    "assetId": "procedural-audio-v1",
+    "name": "Procedural Audio Loops and SFX",
+    "source": "Project Internal Synth",
+    "author": "SPAIN 2K Team",
+    "license": "MIT",
+    "usage": "Level themes and combat/UI sound effects generated in WebAudio.",
+    "url": "https://opensource.org/licenses/MIT"
+  }
+]
