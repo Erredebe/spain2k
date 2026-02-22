@@ -231,12 +231,40 @@ export interface SaveDataV1 {
   };
 }
 
+export interface AtlasDefinition {
+  key: string;
+  texturePath: string;
+  atlasPath: string;
+  requiredFrames: string[];
+}
+
+export interface AudioDefinition {
+  key: string;
+  oggPath?: string;
+  mp3Path?: string;
+  loop: boolean;
+  volume: number;
+  category: 'music' | 'sfx';
+}
+
+export interface AssetManifest {
+  images: Record<string, string>;
+  atlases: Record<string, AtlasDefinition>;
+  audio: Record<string, AudioDefinition>;
+  requiredImageKeys: string[];
+  requiredAudioKeys: string[];
+}
+
 export interface AssetLicenseRecord {
   assetId: string;
   name: string;
   source: string;
   author: string;
-  license: 'CC0' | 'CC-BY' | 'MIT' | 'Royalty-Free';
+  license: 'CC0' | 'CC-BY';
   usage: string;
   url: string;
+  localPath: string;
+  sha256: string;
+  attributionRequired: boolean;
+  attributionText: string;
 }

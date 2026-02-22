@@ -1,49 +1,55 @@
-# Cómo Agregar un Nivel
+# Add A Level
 
-## 1. Crear JSON de nivel
+## 1. Create level JSON
 
-Crear archivo en `src/config/levels/` siguiendo la forma de:
-
+Create a file in `src/config/levels/` using the same shape as:
 - `level-1.json`
 - `level-2.json`
 - `level-3.json`
 
-Campos mínimos:
-
+Required fields:
 - `id`
 - `displayNameEs`, `displayNameEn`
 - `introEs`, `introEn`
 - `musicKey`
 - `backgroundStyle`
-- `waves` (4-6 recomendado)
+- `waves`
 - `midEvent`
 - `interactables`
 - `hasBoss`
 
-## 2. Registrar nivel
+## 2. Register it
 
-Editar `src/config/levels/index.ts` y añadir import + entrada en `LEVELS`.
+Edit `src/config/levels/index.ts` and append it to `LEVELS`.
 
-## 3. Fondo y música
+## 3. Add visual and audio assets
 
-- Fondo: debe existir estilo en `LevelScene.buildBackground`.
-- Música: `musicKey` válido para `AudioMixer` en `src/audio/audioMixer.ts`.
+Update `src/assets/manifest.ts`:
+- background image key/path
+- music key/path (`ogg` + `mp3` where possible)
 
-## 4. Oleadas
+All files must exist under `public/assets/**`.
 
-Cada `WaveDefinition` soporta:
+## 4. Register licenses
 
-- `maxConcurrent`
-- múltiples grupos `spawns` con:
-  - `enemyId`
-  - `count`
-  - `spawnDelayMs`
-  - `spawnPoints`
+Add legal records in:
+- `src/config/licenses/assets-licenses.json`
 
-`SpawnSystem` consume estos datos sin lógica hardcodeada de escena.
+Then validate:
 
-## 5. QA recomendado
+```bash
+npm run assets:verify
+```
 
-- Validar flujo completo con `npm run dev`.
-- Ejecutar `npm test` y `npm run build`.
-- Revisar que el evento intermedio se dispara en la wave esperada.
+## 5. Run gameplay checks
+
+```bash
+npm run dev
+npm test
+npm run build
+```
+
+Verify:
+- wave progression
+- mid-event trigger
+- level clear transition

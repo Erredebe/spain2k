@@ -1,6 +1,6 @@
 # SPAIN 2K
 
-Beat'em up 2D moderno en TypeScript + Phaser 3 con arquitectura ECS (`bitecs`), 3 niveles completos, 3 personajes jugables, coop local 2P, boss final multifase, HUD moderno y combate con hitboxes/hurtboxes desacoplados.
+Modern 2D beat'em up built with TypeScript + Phaser 3 using ECS (`bitecs`), with 3 levels, 3 playable characters, local 2P co-op, and a 3-phase final boss.
 
 ## Stack
 
@@ -11,8 +11,9 @@ Beat'em up 2D moderno en TypeScript + Phaser 3 con arquitectura ECS (`bitecs`), 
 - ESLint
 - Prettier
 - bitecs
+- howler
 
-## Requisitos
+## Requirements
 
 - Node.js 20+
 - npm 10+
@@ -25,41 +26,50 @@ npm run dev
 npm run build
 npm test
 npm run lint
+npm run assets:sync
+npm run assets:atlas
+npm run assets:verify
 ```
 
-## Contenido jugable
+## Runtime Asset Policy
 
-- 3 niveles:
-  - Mercado nocturno
+- No procedural textures/audio in production runtime.
+- Runtime loads only versioned open assets from `public/assets/**`.
+- Allowed licenses: `CC0` and `CC-BY`.
+- Full legal traceability:
+  - `src/config/licenses/assets-licenses.json`
+  - `docs/ASSET_LICENSES.md`
+
+## Playable Content
+
+- Levels:
+  - Night Market
   - Metro
-  - Puerto industrial (boss final)
-- 3 personajes:
+  - Industrial Port (final boss)
+- Characters:
   - Heavy Brawler (`Toro`)
-  - Técnico (`Navaja`)
-  - Ágil (`Chispa`)
-- Enemigos:
+  - Technical (`Navaja`)
+  - Agile (`Chispa`)
+- Enemy archetypes:
   - Brawler
   - Rusher
   - Tank
   - Armed
   - Ranged
-- Boss:
-  - 3 fases con thresholds de vida al 60% y 30%
-  - Dash agresivo, AoE y estado enrage
 
-## Arquitectura ECS
+## Architecture
 
-- Componentes y sistemas en `src/components` y `src/systems`.
-- Escenas (`src/scenes`) solo orquestan flujo y presentación.
-- Lógica de gameplay vive en sistemas + event bus tipado.
+- ECS gameplay in `src/components` + `src/systems`.
+- Scenes in `src/scenes` orchestrate flow only.
+- Typed domain event bus in `src/core/events`.
 
-Ver detalle en `docs/ARCHITECTURE.md`.
+See `docs/ARCHITECTURE.md` for frame flow and system ordering.
 
-## Controles
+## Controls
 
 ### Player 1
 
-- Mover: Flechas
+- Move: Arrow keys
 - Jump: `Space`
 - Light: `J`
 - Heavy: `K`
@@ -67,40 +77,28 @@ Ver detalle en `docs/ARCHITECTURE.md`.
 - Special: `L`
 - Pause: `Esc`
 
-### Player 2 (coop)
+### Player 2 (co-op)
 
-- Mover: `W A S D`
+- Move: `W A S D`
 - Jump: `R`
 - Light: `F`
 - Heavy: `G`
 - Grab: `T`
 - Special: `Y`
 
-### Remap rápido
+### Quick remap
 
-- `F1` en combate intercambia `Light`/`Heavy` de P1 y guarda la configuración.
+- In combat, `F1` swaps P1 `Light`/`Heavy` and persists to save data.
 
-## Guardado
+## Save Data
 
-- Checkpoints por nivel en `localStorage`.
-- Persisten idioma, personaje seleccionado, accesibilidad y controles.
+Progress and settings are stored in `localStorage`:
+- level checkpoint
+- locale (ES/EN)
+- accessibility options
+- control bindings
 
-## Accesibilidad
-
-- Subtítulos
-- Reducción de flashes/sacudidas
-- HUD alto contraste
-- HUD grande
-- Remapeo de controles
-
-## Assets y licencias
-
-- Pipeline de assets procedural HD generado en runtime (sprites, fondos y audio).
-- Registro de licencias:
-  - `docs/ASSET_LICENSES.md`
-  - `src/config/licenses/assets-licenses.json`
-
-## Documentación adicional
+## Additional Docs
 
 - `docs/ARCHITECTURE.md`
 - `docs/ADD_CHARACTER.md`

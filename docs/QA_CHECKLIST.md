@@ -1,50 +1,48 @@
 # QA Checklist
 
-## Build & Test
+## Build And Tests
 
-- [ ] `npm install` sin errores.
-- [ ] `npm run dev` levanta correctamente.
-- [ ] `npm run build` completa.
-- [ ] `npm test` pasa.
+- [ ] `npm install` completes.
+- [ ] `npm run dev` boots game correctly.
+- [ ] `npm run build` passes.
+- [ ] `npm test` passes.
+- [ ] `npm run lint` passes.
+- [ ] `npm run assets:verify` passes.
 
 ## Gameplay
 
-- [ ] Se puede completar campaña de 3 niveles.
-- [ ] Los 3 personajes son seleccionables y jugables.
-- [ ] Coop local 2P funciona.
-- [ ] Boss final cambia de fase al 60% y 30% HP.
+- [ ] Full campaign can be completed (3 levels).
+- [ ] 3 playable characters are selectable and playable.
+- [ ] Local 2P co-op works.
+- [ ] Final boss phase changes happen at 60% and 30% HP.
 
-## Combate
+## Combat
 
-- [ ] Hitboxes independientes del sprite.
-- [ ] Hurtboxes dinámicas por estado.
-- [ ] I-frames tras impacto.
-- [ ] Hitstop perceptible (50-100ms).
-- [ ] Screen shake en impactos.
-- [ ] Combo counter por jugador.
-- [ ] Special meter carga y consume al usar especial.
-- [ ] Knockback / juggle / ground bounce operativos.
+- [ ] Hitboxes independent from sprite art.
+- [ ] Hurtboxes update by state.
+- [ ] I-frames prevent unfair overlap multi-hit.
+- [ ] Hitstop is visible (50-100ms).
+- [ ] Screen shake and particles trigger on impact.
+- [ ] Combo counter updates and resets correctly.
+- [ ] Special meter fills and spends correctly.
 
-## UI/UX
+## Asset Integrity
 
-- [ ] Pantalla título animada.
-- [ ] Selector de personajes operativo.
-- [ ] HUD moderno con barras animadas.
-- [ ] Subtítulos y opciones accesibilidad activas.
+- [ ] No runtime call to procedural texture/audio generators.
+- [ ] `PreloadScene` loads from manifest only.
+- [ ] All required manifest keys are present.
+- [ ] All versioned files in `public/assets/**` are listed in license inventory.
+- [ ] Every license record includes `localPath`, `sha256`, and attribution metadata.
 
 ## Audio
 
-- [ ] Música única por nivel.
-- [ ] SFX de pasos, impacto, UI.
-- [ ] Ducking durante especial/hitstop.
+- [ ] Music changes per level.
+- [ ] SFX for step, hit, special, UI click play correctly.
+- [ ] Ducking occurs during special usage.
 
-## Datos y persistencia
+## UI/UX
 
-- [ ] Checkpoint por nivel se guarda en localStorage.
-- [ ] Remapeo rápido de controles se persiste.
-- [ ] Idioma ES/EN se persiste.
-
-## Legal
-
-- [ ] `docs/ASSET_LICENSES.md` actualizado.
-- [ ] `src/config/licenses/assets-licenses.json` actualizado.
+- [ ] Animated title screen.
+- [ ] Character select works for 1P/2P.
+- [ ] HUD bars animate and reflect state.
+- [ ] Credits include CC-BY attributions.

@@ -4,7 +4,7 @@ import { EventBus } from '../events/eventBus';
 import type { BossDefinition, LevelDefinition, Locale } from '../../config/types';
 import type { GameEcsContext } from '../../systems/types';
 import type { HudController } from '../../ui/HUD';
-import type { AudioMixer } from '../../audio/audioMixer';
+import type { AudioManager } from '../../audio/audioManager';
 
 interface CreateContextOptions {
   level: LevelDefinition;
@@ -13,7 +13,7 @@ interface CreateContextOptions {
   coopEnabled: boolean;
   locale: Locale;
   hud: HudController;
-  audio: AudioMixer;
+  audio: AudioManager;
   bossDefinition: BossDefinition;
   controls: GameEcsContext['controls'];
 }

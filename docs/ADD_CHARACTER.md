@@ -1,38 +1,47 @@
-# Cómo Agregar un Personaje
+# Add A Character
 
-## 1. Definir datos base
+## 1. Define gameplay data
 
-Editar `src/config/characters.ts`:
+Edit `src/config/characters.ts` and add a new `CharacterDefinition`:
+- `id`
+- `displayName`
+- `archetype`
+- `stats`
+- full `moveset`
+- required animation states
 
-- Nuevo `CharacterDefinition` con:
-  - `id`
-  - `displayName`
-  - `archetype`
-  - `stats`
-  - `moveset` completo (`light-1`, `light-2`, `light-3`, `heavy`, `air`, `grab`, `throw`, `special`)
-  - `animationStates` requeridos
-  - `palette`
+## 2. Add texture key + file mapping
 
-## 2. Registrar textura
+Update `src/assets/manifest.ts`:
+- `TEXTURE_KEYS.players`
+- `TEXTURE_INDEX`
+- `ENTITY_TEXTURE_REFS`
+- `ASSET_MANIFEST.images` with the new file in `public/assets/images/entities`
 
-Actualizar:
+## 3. Register legal metadata
 
-- `src/assets/manifest.ts` (`TEXTURE_KEYS.players` y `TEXTURE_INDEX`)
-- `src/assets/textureFactory.ts` para generar la textura procedural nueva.
+Add the new file entry in:
+- `src/config/licenses/assets-licenses.json`
 
-## 3. Habilitar selección
+Required fields:
+- source URL
+- author
+- license (`CC0` or `CC-BY`)
+- local path
+- SHA-256
+- attribution flags/text
 
-`src/scenes/CharacterSelectScene.ts` usa `PLAYABLE_CHARACTERS`.
-Al añadirlo en config, aparece automáticamente en la selección.
+## 4. Enable selection
 
-## 4. Ajustar HUD y balance
+`src/scenes/CharacterSelectScene.ts` reads from `PLAYABLE_CHARACTERS`.
+After adding config data, the card appears automatically.
 
-- Revisar vida/daño en `stats`.
-- Revisar ventanas de cancel/hitstop/juggle en `moveset`.
+## 5. Validate
 
-## 5. Testing recomendado
+Run:
 
-- Añadir o ajustar tests en:
-  - `src/tests/combatMath.test.ts`
-  - `src/tests/comboActivation.test.ts`
-  - `src/tests/knockbackSystem.test.ts`
+```bash
+npm run assets:verify
+npm test
+npm run build
+```

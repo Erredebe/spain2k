@@ -8,7 +8,7 @@ import {
 } from '../components';
 import { GAME_BALANCE } from '../config/balance';
 import { isInsideCameraBounds } from '../utils/culling';
-import { TEXTURE_KEY_BY_INDEX } from '../assets/manifest';
+import { ENTITY_TEXTURE_REFS, TEXTURE_KEY_BY_INDEX } from '../assets/manifest';
 import type { SystemFn } from './types';
 
 const renderQuery = defineQuery([
@@ -30,9 +30,14 @@ export const RenderSystem: SystemFn = (context) => {
 
     const x = TransformComponent.x[entity];
     const y = TransformComponent.y[entity] + TransformComponent.z[entity];
-    const textureKey = TEXTURE_KEY_BY_INDEX[SpriteComponent.textureIndex[entity]];
-    if (textureKey && render.sprite.texture.key !== textureKey) {
-      render.sprite.setTexture(textureKey);
+    const textureId = TEXTURE_KEY_BY_INDEX[SpriteComponent.textureIndex[entity]];
+    const runtimeTexture = textureId ? ENTITY_TEXTURE_REFS[textureId] : undefined;
+    if (
+      runtimeTexture &&
+      (render.sprite.texture.key !== runtimeTexture.textureKey ||
+        (runtimeTexture.frame !== undefined && render.sprite.frame.name !== runtimeTexture.frame))
+    ) {
+      render.sprite.setTexture(runtimeTexture.textureKey, runtimeTexture.frame);
     }
 
     const visible = isInsideCameraBounds(

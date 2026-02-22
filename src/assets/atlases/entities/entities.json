@@ -1,0 +1,208 @@
+{
+	"textures": [
+		{
+			"image": "entities.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1885,
+				"h": 606
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "enemy-tank",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 692,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 692,
+						"h": 600
+					},
+					"frame": {
+						"x": 3,
+						"y": 3,
+						"w": 692,
+						"h": 600
+					}
+				},
+				{
+					"filename": "enemy-ranged",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 600,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 600,
+						"h": 600
+					},
+					"frame": {
+						"x": 701,
+						"y": 3,
+						"w": 600,
+						"h": 600
+					}
+				},
+				{
+					"filename": "boss-cabecilla",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 575,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 575,
+						"h": 600
+					},
+					"frame": {
+						"x": 1307,
+						"y": 3,
+						"w": 575,
+						"h": 600
+					}
+				},
+				{
+					"filename": "enemy-armed",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 575,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 575,
+						"h": 600
+					},
+					"frame": {
+						"x": 1307,
+						"y": 3,
+						"w": 575,
+						"h": 600
+					}
+				},
+				{
+					"filename": "enemy-brawler",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 575,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 575,
+						"h": 600
+					},
+					"frame": {
+						"x": 1307,
+						"y": 3,
+						"w": 575,
+						"h": 600
+					}
+				},
+				{
+					"filename": "player-heavy",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 575,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 575,
+						"h": 600
+					},
+					"frame": {
+						"x": 1307,
+						"y": 3,
+						"w": 575,
+						"h": 600
+					}
+				},
+				{
+					"filename": "enemy-rusher",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 600,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 600,
+						"h": 600
+					},
+					"frame": {
+						"x": 701,
+						"y": 3,
+						"w": 600,
+						"h": 600
+					}
+				},
+				{
+					"filename": "player-agile",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 600,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 600,
+						"h": 600
+					},
+					"frame": {
+						"x": 701,
+						"y": 3,
+						"w": 600,
+						"h": 600
+					}
+				},
+				{
+					"filename": "player-technical",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 692,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 692,
+						"h": 600
+					},
+					"frame": {
+						"x": 3,
+						"y": 3,
+						"w": 692,
+						"h": 600
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://github.com/odrick/free-tex-packer-cli",
+		"version": "0.3.0"
+	}
+}

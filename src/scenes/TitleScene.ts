@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
+import { AudioManager } from '../audio/audioManager';
 import { t } from '../config/i18n';
-import { AudioMixer } from '../audio/audioMixer';
 import { SceneKeys } from '../core/engine/sceneKeys';
 import { getSessionState, updateSessionState } from '../core/engine/sessionState';
 import { saveLanguage } from '../utils/storage';
@@ -40,7 +40,7 @@ export class TitleScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const localeText = this.add
-      .text(960, 630, state.locale === 'es' ? 'L: Idioma English' : 'L: Language Español', {
+      .text(960, 630, state.locale === 'es' ? 'L: Idioma English' : 'L: Language Espanol', {
         fontFamily: 'Trebuchet MS',
         fontSize: '22px',
         color: '#67e8f9',
@@ -73,19 +73,19 @@ export class TitleScene extends Phaser.Scene {
       ease: 'Quad.easeInOut',
     });
 
-    let mixer = this.registry.get('audioMixer') as AudioMixer | undefined;
-    if (!mixer) {
-      mixer = new AudioMixer();
-      this.registry.set('audioMixer', mixer);
+    let audio = this.registry.get('audioManager') as AudioManager | undefined;
+    if (!audio) {
+      audio = new AudioManager();
+      this.registry.set('audioManager', audio);
     }
-    mixer.playMusic('market-theme');
+    audio.playMusic('market-theme');
 
     const enter = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     const coop = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.C);
     const locale = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.L);
 
     this.input.keyboard?.on('keydown', () => {
-      mixer?.unlock();
+      audio?.unlock();
     });
 
     this.events.on('update', () => {
@@ -93,7 +93,7 @@ export class TitleScene extends Phaser.Scene {
         const next = !getSessionState().coopEnabled;
         updateSessionState({ coopEnabled: next });
         coopText.setText(`${t(getSessionState().locale, 'coopHint')} [${next ? 'ON' : 'OFF'}]`);
-        mixer?.playSfx('ui-click');
+        audio?.playSfx('ui-click');
       }
       if (locale && Phaser.Input.Keyboard.JustDown(locale)) {
         const nextLocale = getSessionState().locale === 'es' ? 'en' : 'es';
@@ -104,11 +104,11 @@ export class TitleScene extends Phaser.Scene {
         coopText.setText(
           `${t(nextLocale, 'coopHint')} [${getSessionState().coopEnabled ? 'ON' : 'OFF'}]`,
         );
-        localeText.setText(nextLocale === 'es' ? 'L: Idioma English' : 'L: Language Español');
-        mixer?.playSfx('ui-click', 0.8);
+        localeText.setText(nextLocale === 'es' ? 'L: Idioma English' : 'L: Language Espanol');
+        audio?.playSfx('ui-click', 0.8);
       }
       if (enter && Phaser.Input.Keyboard.JustDown(enter)) {
-        mixer?.playSfx('ui-click');
+        audio?.playSfx('ui-click');
         this.scene.start(SceneKeys.CharacterSelect);
       }
     });

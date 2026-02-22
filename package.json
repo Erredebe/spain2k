@@ -5,20 +5,27 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "npm run assets:verify && tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "assets:sync": "node scripts/assets-sync.mjs",
+    "assets:atlas": "node scripts/assets-atlas.mjs",
+    "assets:verify": "node scripts/assets-verify.mjs"
   },
   "devDependencies": {
+    "@types/howler": "^2.2.12",
+    "@types/node": "^25.3.0",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
     "@typescript-eslint/parser": "^8.56.0",
     "@vitest/coverage-v8": "^4.0.18",
+    "adm-zip": "^0.5.16",
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
+    "free-tex-packer-cli": "^0.3.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
@@ -26,6 +33,7 @@
   },
   "dependencies": {
     "bitecs": "^0.3.40",
+    "howler": "^2.2.4",
     "phaser": "^3.90.0"
   }
 }

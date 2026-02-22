@@ -1,20 +1,20 @@
 import Phaser from 'phaser';
 import { defineQuery } from 'bitecs';
+import { AudioManager } from '../audio/audioManager';
 import { HealthComponent, InputComponent, PlayerTag } from '../components';
-import { LEVELS } from '../config/levels';
 import { FINAL_BOSS } from '../config/boss';
+import { LEVELS } from '../config/levels';
+import { t } from '../config/i18n';
 import { SceneKeys } from '../core/engine/sceneKeys';
+import { getSessionState, updateSessionState } from '../core/engine/sessionState';
 import { createEcsContext } from '../core/ecs/world';
 import { SystemScheduler } from '../core/ecs/scheduler';
-import { OrderedSystems } from '../systems';
-import { createPlayer } from '../entities/playerFactory';
 import { createInteractableProp } from '../entities/propFactory';
-import { HudController } from '../ui/HUD';
-import { AudioMixer } from '../audio/audioMixer';
-import { getSessionState, updateSessionState } from '../core/engine/sessionState';
-import { loadSave } from '../utils/storage';
+import { createPlayer } from '../entities/playerFactory';
+import { OrderedSystems } from '../systems';
 import type { GameEcsContext } from '../systems/types';
-import { t } from '../config/i18n';
+import { HudController } from '../ui/HUD';
+import { loadSave } from '../utils/storage';
 
 const playerAliveQuery = defineQuery([PlayerTag, InputComponent, HealthComponent]);
 
@@ -42,12 +42,12 @@ export class LevelScene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 1920, 1080);
     this.cameras.main.setZoom(1);
 
-    let audioMixer = this.registry.get('audioMixer') as AudioMixer | undefined;
-    if (!audioMixer) {
-      audioMixer = new AudioMixer();
-      this.registry.set('audioMixer', audioMixer);
+    let audio = this.registry.get('audioManager') as AudioManager | undefined;
+    if (!audio) {
+      audio = new AudioManager();
+      this.registry.set('audioManager', audio);
     }
-    audioMixer.unlock();
+    audio.unlock();
 
     const hud = new HudController(this, save.accessibility);
     this.context = createEcsContext(this, {
@@ -57,7 +57,7 @@ export class LevelScene extends Phaser.Scene {
       coopEnabled: session.coopEnabled,
       locale: session.locale,
       hud,
-      audio: audioMixer,
+      audio,
       bossDefinition: FINAL_BOSS,
       controls: save.controls,
     });
@@ -188,16 +188,65 @@ export class LevelScene extends Phaser.Scene {
 
   private buildBackground(style: 'market' | 'metro' | 'port'): void {
     const key = style === 'market' ? 'bg-market' : style === 'metro' ? 'bg-metro' : 'bg-port';
-    const far = this.add.image(960, 540, key).setScrollFactor(0.2).setDepth(-100);
-    const mid = this.add.image(960, 560, key).setScrollFactor(0.45).setDepth(-80).setAlpha(0.75);
-    const near = this.add.image(960, 590, key).setScrollFactor(0.7).setDepth(-60).setAlpha(0.45);
+    const tintOverlay = style === 'market' ? 0x5f2b17 : style === 'metro' ? 0x0d2f45 : 0x0f172a;
+
+    const sky = this.add.image(960, 540, key).setScrollFactor(0.15).setDepth(-130).setAlpha(0.96);
+    const mountain = this.add
+      .image(960, 600, 'parallax-mountain')
+      .setScrollFactor(0.22)
+      .setDepth(-120)
+      .setAlpha(style === 'market' ? 0.28 : 0.4)
+      .setScale(2.3);
+    const hills = this.add
+      .image(960, 650, 'parallax-hills')
+      .setScrollFactor(0.36)
+      .setDepth(-110)
+      .setAlpha(style === 'metro' ? 0.32 : 0.44)
+      .setScale(2.4);
+    const cloudA = this.add
+      .image(760, 280, 'parallax-cloud-1')
+      .setScrollFactor(0.2)
+      .setDepth(-108)
+      .setAlpha(0.28)
+      .setScale(1.8);
+    const cloudB = this.add
+      .image(1280, 340, 'parallax-cloud-2')
+      .setScrollFactor(0.24)
+      .setDepth(-107)
+      .setAlpha(0.22)
+      .setScale(1.7);
+
+    const mid = this.add.image(960, 580, key).setScrollFactor(0.5).setDepth(-90).setAlpha(0.72);
+    const near = this.add.image(960, 610, key).setScrollFactor(0.72).setDepth(-70).setAlpha(0.46);
+    [sky, mid, near].forEach((image) => image.setDisplaySize(2200, 1300));
+    const colorGrade = this.add
+      .rectangle(960, 540, 1920, 1080, tintOverlay, style === 'metro' ? 0.18 : 0.14)
+      .setScrollFactor(0)
+      .setDepth(-60);
+
     this.tweens.add({
-      targets: [far, mid, near],
+      targets: [sky, mid, near],
       x: '+=12',
       yoyo: true,
       repeat: -1,
       duration: 3200,
       ease: 'Sine.easeInOut',
+    });
+    this.tweens.add({
+      targets: [cloudA, cloudB, mountain, hills],
+      x: '+=26',
+      yoyo: true,
+      repeat: -1,
+      duration: 5200,
+      ease: 'Sine.easeInOut',
+    });
+    this.tweens.add({
+      targets: colorGrade,
+      alpha: { from: colorGrade.alpha, to: colorGrade.alpha + 0.05 },
+      yoyo: true,
+      repeat: -1,
+      duration: 3500,
+      ease: 'Quad.easeInOut',
     });
   }
 

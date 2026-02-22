@@ -7,6 +7,7 @@ import {
   EnemyTag,
   SpriteComponent,
   TeamComponent,
+  TransformComponent,
 } from '../components';
 import type { GameEcsContext } from '../systems/types';
 import { TEXTURE_INDEX } from '../assets/manifest';
@@ -51,6 +52,8 @@ export const createFinalBoss = (context: GameEcsContext, x: number, y: number): 
   BossComponent.aoeCooldownMs[entity] = boss.phases[0].aoeCooldownMs;
   BossComponent.dashCooldownMs[entity] = boss.phases[0].dashCooldownMs;
   BossComponent.enraged[entity] = 0;
+  TransformComponent.scaleX[entity] = 0.29;
+  TransformComponent.scaleY[entity] = 0.29;
   SpriteComponent.tint[entity] = 0xb91c1c;
   TeamComponent.value[entity] = 2;
 

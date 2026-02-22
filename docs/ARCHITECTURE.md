@@ -1,13 +1,13 @@
-# Arquitectura SPAIN 2K
+# SPAIN 2K Architecture
 
-## Principios
+## Core Rules
 
-- ECS con `bitecs`.
-- Escenas sin lógica de combate.
-- Event bus tipado para desacoplar UI/audio/gameplay.
-- Sistema data-driven para niveles y oleadas.
+- ECS with `bitecs`.
+- Scenes do not contain gameplay rules.
+- Gameplay runs through systems + typed event bus.
+- Asset loading is manifest-driven and fail-fast.
 
-## Estructura
+## Folder Structure
 
 ```text
 src/
@@ -26,50 +26,53 @@ src/
   utils/
 ```
 
-## Flujo por frame
+## Frame Order
 
-Orden fijo de sistemas:
+1. `SpawnSystem`
+2. `InputSystem`
+3. `AISystem`
+4. `MovementSystem`
+5. `CollisionSystem`
+6. `CombatSystem`
+7. `AnimationSystem`
+8. `ParticleSystem`
+9. `AudioSystem`
+10. `UISystem`
+11. `RenderSystem`
 
-1. SpawnSystem
-2. InputSystem
-3. AISystem
-4. MovementSystem
-5. CollisionSystem
-6. CombatSystem
-7. AnimationSystem
-8. ParticleSystem
-9. AudioSystem
-10. UISystem
-11. RenderSystem
+## ECS Runtime
 
-## ECS Core
-
-- Contexto ECS: `src/core/ecs/world.ts`
+- Context builder: `src/core/ecs/world.ts`
 - Scheduler: `src/core/ecs/scheduler.ts`
 - Event bus: `src/core/events/eventBus.ts`
-- Eventos de dominio: `src/core/events/events.ts`
 
-## Escenas
+## Scene Responsibilities
 
-- `BootScene`: arranque.
-- `PreloadScene`: generación de texturas HD procedurales.
-- `TitleScene`: título animado y opciones base.
-- `CharacterSelectScene`: selección de personaje 1P/2P.
-- `LevelScene`: orquestación de nivel + ejecución ECS.
-- `ResultScene`: victoria/derrota.
+- `BootScene`: boot handoff.
+- `PreloadScene`: loads manifest assets and fails if any required key is missing.
+- `TitleScene`: title UX and session toggles.
+- `CharacterSelectScene`: 1P/2P character selection.
+- `LevelScene`: level orchestration, camera, ECS scheduler.
+- `ResultScene`: result + credits.
 
-## Persistencia
+## Asset Runtime
+
+- Manifest: `src/assets/manifest.ts`
+- Validation helpers: `src/assets/validation.ts`
+- Audio runtime: `src/audio/audioManager.ts` (`howler`)
+- Versioned files served from `public/assets/**`.
+
+## Persistence
 
 - `localStorage`:
-  - checkpoint por nivel
-  - idioma
-  - accesibilidad
-  - remapeo de controles
+  - checkpoint by level
+  - locale
+  - accessibility settings
+  - control mapping
 
-## Optimización aplicada
+## Performance Practices
 
-- Culling en `RenderSystem`.
-- Object pooling para partículas.
-- Límite de spawn por oleada.
-- Hitstop centralizado.
-- Reutilización de render objects por entidad.
+- View culling in `RenderSystem`
+- Particle object pooling
+- Spawn concurrency limits
+- Centralized hitstop handling

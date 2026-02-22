@@ -1,5 +1,6 @@
 import type Phaser from 'phaser';
 import { addComponent, addEntity } from 'bitecs';
+import { ENTITY_TEXTURE_REFS } from '../assets/manifest';
 import {
   ActiveEntityComponent,
   AnimationComponent,
@@ -18,6 +19,7 @@ import type { GameEcsContext } from '../systems/types';
 import type { HurtboxRuntime, RenderObjectRef } from '../components/runtimeStores';
 
 let renderObjectCounter = 1;
+const BASE_ENTITY_SCALE = 0.24;
 
 export const createRenderObject = (
   scene: Phaser.Scene,
@@ -25,8 +27,12 @@ export const createRenderObject = (
   x: number,
   y: number,
 ): RenderObjectRef => {
+  const runtimeTexture = ENTITY_TEXTURE_REFS[textureKey] ?? { textureKey };
   const shadow = scene.add.ellipse(x, y + 78, 125, 36, 0x000000, 0.25).setDepth(y - 0.01);
-  const sprite = scene.add.image(x, y, textureKey).setOrigin(0.5, 0.87).setDepth(y);
+  const sprite = scene.add
+    .image(x, y, runtimeTexture.textureKey, runtimeTexture.frame)
+    .setOrigin(0.5, 0.87)
+    .setDepth(y);
   return {
     id: renderObjectCounter++,
     sprite,
@@ -70,8 +76,8 @@ export const createBaseEntity = (input: CreateBaseEntityInput): number => {
   TransformComponent.x[entity] = input.x;
   TransformComponent.y[entity] = input.y;
   TransformComponent.z[entity] = 0;
-  TransformComponent.scaleX[entity] = 1;
-  TransformComponent.scaleY[entity] = 1;
+  TransformComponent.scaleX[entity] = BASE_ENTITY_SCALE;
+  TransformComponent.scaleY[entity] = BASE_ENTITY_SCALE;
   TransformComponent.rotation[entity] = 0;
   TransformComponent.facing[entity] = 1;
 

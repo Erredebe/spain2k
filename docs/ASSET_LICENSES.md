@@ -1,39 +1,65 @@
-# Licencias de Assets
+# Asset Licenses
 
-## Política
+## Policy
 
-- Solo assets con licencia permitida: CC0, CC-BY, MIT o Royalty-Free comercial.
-- En esta versión, los assets visuales y de audio son procedurales (generación interna runtime).
+- Production runtime uses only external open assets.
+- Allowed licenses in this build: `CC0` and `CC-BY`.
+- No procedural art/audio is used at runtime.
+- Every versioned file in `public/assets/**` has:
+  - source URL
+  - author
+  - license
+  - local path
+  - SHA-256 checksum
+  - attribution requirement flag/text
 
-## Inventario
-
-### procedural-sprites-v1
-
-- Nombre: Procedural HD Character Sheets
-- Fuente: Project Internal Generator
-- Autor: SPAIN 2K Team
-- Licencia: MIT
-- Uso: personajes jugables, enemigos, boss
-- URL: https://opensource.org/licenses/MIT
-
-### procedural-backgrounds-v1
-
-- Nombre: Procedural Modern 2.5D Background Toolkit
-- Fuente: Project Internal Generator
-- Autor: SPAIN 2K Team
-- Licencia: MIT
-- Uso: fondos de mercado, metro y puerto
-- URL: https://opensource.org/licenses/MIT
-
-### procedural-audio-v1
-
-- Nombre: Procedural Audio Loops and SFX
-- Fuente: Project Internal Synth
-- Autor: SPAIN 2K Team
-- Licencia: MIT
-- Uso: música y SFX de gameplay/UI
-- URL: https://opensource.org/licenses/MIT
-
-## Fuente de verdad en código
-
+Canonical inventory:
 - `src/config/licenses/assets-licenses.json`
+
+## Source Sets
+
+### Characters (CC0)
+
+- Mustermann 2 (Puffolotti):
+  - https://opengameart.org/content/fighting-character-template-mustermann-2-a001aaaa001-karate
+- Komato Devastator 2 (Puffolotti):
+  - https://opengameart.org/content/complete-komato-devastator-2-for-platformers-or-fighting-games-alt
+- Human woman with komato armor (Puffolotti):
+  - https://opengameart.org/content/human-woman-wearing-new-komato-armor-shoto-cretin-fighting-style
+
+### Backgrounds (CC-BY / CC0)
+
+- Glowing City Background (Fiulo, CC-BY):
+  - https://opengameart.org/content/glowing-city-background
+- Background Dark City (gfx0, CC-BY):
+  - https://opengameart.org/content/background-dark-city
+- Ruined City Background (TokyoGeisha, CC0):
+  - https://opengameart.org/content/ruined-city-background
+- Kenney Background Elements Redux (CC0):
+  - https://kenney.nl/assets/background-elements-redux
+
+### Music (CC-BY / CC0)
+
+- Game Music Loop - Rising (HorrorPen, CC-BY):
+  - https://opengameart.org/content/game-music-loop-rising
+- Game Music Loop - Intense (HorrorPen, CC-BY):
+  - https://opengameart.org/content/game-music-loop-intense
+- Dark Shrine Loop (qubodup, CC0):
+  - https://opengameart.org/content/dark-shrine-loop
+
+### UI + SFX (CC0)
+
+- Kenney UI Pack:
+  - https://kenney.nl/assets/ui-pack
+- Kenney Impact Sounds:
+  - https://kenney.nl/assets/impact-sounds
+- Kenney Interface Sounds:
+  - https://kenney.nl/assets/interface-sounds
+
+## In-game Attribution
+
+Credits shown in-game include all `CC-BY` attributions:
+- Glowing City Background by Fiulo (CC-BY 4.0)
+- Background Dark City by gfx0 (CC-BY 3.0)
+- Game Music Loop - Rising by HorrorPen (CC-BY 3.0)
+- Game Music Loop - Intense by HorrorPen (CC-BY 3.0)

@@ -1,0 +1,57 @@
+{
+  "images": {
+    "player-heavy": "/assets/images/entities/player-heavy.png",
+    "player-technical": "/assets/images/entities/player-technical.png",
+    "player-agile": "/assets/images/entities/player-agile.png",
+    "enemy-brawler": "/assets/images/entities/enemy-brawler.png",
+    "enemy-rusher": "/assets/images/entities/enemy-rusher.png",
+    "enemy-tank": "/assets/images/entities/enemy-tank.png",
+    "enemy-armed": "/assets/images/entities/enemy-armed.png",
+    "enemy-ranged": "/assets/images/entities/enemy-ranged.png",
+    "boss-cabecilla": "/assets/images/entities/boss-cabecilla.png",
+    "bg-market": "/assets/images/backgrounds/bg-market.png",
+    "bg-metro": "/assets/images/backgrounds/bg-metro.png",
+    "bg-port": "/assets/images/backgrounds/bg-port.png",
+    "bg-gradient-warm": "/assets/images/backgrounds/bg-gradient-warm.png",
+    "bg-gradient-cold": "/assets/images/backgrounds/bg-gradient-cold.png",
+    "parallax-cloud-1": "/assets/parallax/cloudLayer1.png",
+    "parallax-cloud-2": "/assets/parallax/cloudLayer2.png",
+    "parallax-hills": "/assets/parallax/hillsLarge.png",
+    "parallax-mountain": "/assets/parallax/mountainA.png",
+    "fx-impact": "/assets/images/effects/fx-impact.png",
+    "fx-spark": "/assets/images/effects/fx-spark.png",
+    "fx-special": "/assets/images/effects/fx-special.png",
+    "ui-bar-bg": "/assets/images/ui/ui-bar-bg.png",
+    "ui-bar-fill": "/assets/images/ui/ui-bar-fill.png",
+    "ui-panel": "/assets/images/ui/ui-panel.png"
+  },
+  "audio": {
+    "market-theme": {
+      "oggPath": "/assets/audio/music/market-theme.ogg",
+      "mp3Path": "/assets/audio/music/market-theme.mp3"
+    },
+    "metro-theme": {
+      "oggPath": "/assets/audio/music/metro-theme.ogg",
+      "mp3Path": "/assets/audio/music/metro-theme.mp3"
+    },
+    "port-theme": {
+      "oggPath": "/assets/audio/music/port-theme.ogg",
+      "mp3Path": "/assets/audio/music/port-theme.mp3"
+    },
+    "hit-light": {
+      "oggPath": "/assets/audio/sfx/hit-light.ogg"
+    },
+    "hit-heavy": {
+      "oggPath": "/assets/audio/sfx/hit-heavy.ogg"
+    },
+    "special": {
+      "oggPath": "/assets/audio/sfx/special.ogg"
+    },
+    "step": {
+      "oggPath": "/assets/audio/sfx/step.ogg"
+    },
+    "ui-click": {
+      "oggPath": "/assets/audio/sfx/ui-click.ogg"
+    }
+  }
+}

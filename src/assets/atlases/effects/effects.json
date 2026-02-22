@@ -1,0 +1,82 @@
+{
+	"textures": [
+		{
+			"image": "effects.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 116,
+				"h": 66
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "fx-special",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 60
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 60
+					},
+					"frame": {
+						"x": 3,
+						"y": 3,
+						"w": 64,
+						"h": 60
+					}
+				},
+				{
+					"filename": "fx-spark",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 18,
+						"h": 18
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 18,
+						"h": 18
+					},
+					"frame": {
+						"x": 73,
+						"y": 3,
+						"w": 18,
+						"h": 18
+					}
+				},
+				{
+					"filename": "fx-impact",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 97,
+						"y": 3,
+						"w": 16,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://github.com/odrick/free-tex-packer-cli",
+		"version": "0.3.0"
+	}
+}

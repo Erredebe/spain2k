@@ -11,7 +11,7 @@ import type {
   RenderObjectRef,
 } from '../components/runtimeStores';
 import type { HudController } from '../ui/HUD';
-import type { AudioMixer } from '../audio/audioMixer';
+import type { AudioManager } from '../audio/audioManager';
 
 export interface SpawnPlanItem {
   enemyId: string;
@@ -53,7 +53,7 @@ export interface GameEcsContext {
   coopEnabled: boolean;
   locale: Locale;
   hud: HudController;
-  audio: AudioMixer;
+  audio: AudioManager;
   activeBossEntity: number | null;
   bossDefinition: BossDefinition;
   remapArmed: boolean;
