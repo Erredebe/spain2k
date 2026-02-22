@@ -8,6 +8,9 @@ import {
   SpriteComponent,
   TransformComponent,
 } from '../components';
+import { ASSET_MANIFEST } from '../assets/manifest';
+import type { AnimationState } from '../config/types';
+import { createAnimationRuntimeState, stepAnimationRuntime } from './animationRuntime';
 import type { SystemFn } from './types';
 
 const animationQuery = defineQuery([
@@ -20,6 +23,26 @@ const animationQuery = defineQuery([
 ]);
 
 export const AnimationSystem: SystemFn = (context) => {
+  const stateByIndex: Record<number, AnimationState> = {
+    [AnimationStateMap.idle]: 'idle',
+    [AnimationStateMap.walk]: 'walk',
+    [AnimationStateMap.run]: 'run',
+    [AnimationStateMap.jump]: 'jump',
+    [AnimationStateMap.fall]: 'fall',
+    [AnimationStateMap['light-combo-1']]: 'light-combo-1',
+    [AnimationStateMap['light-combo-2']]: 'light-combo-2',
+    [AnimationStateMap['light-combo-3']]: 'light-combo-3',
+    [AnimationStateMap.heavy]: 'heavy',
+    [AnimationStateMap['air-attack']]: 'air-attack',
+    [AnimationStateMap.grab]: 'grab',
+    [AnimationStateMap.throw]: 'throw',
+    [AnimationStateMap.special]: 'special',
+    [AnimationStateMap.hurt]: 'hurt',
+    [AnimationStateMap.knockdown]: 'knockdown',
+    [AnimationStateMap.recovery]: 'recovery',
+    [AnimationStateMap.victory]: 'victory',
+  };
+
   for (const entity of animationQuery(context.world)) {
     if (HealthComponent.isAlive[entity] === 0) {
       AnimationComponent.stateAnim[entity] = AnimationStateMap.knockdown;
@@ -79,5 +102,27 @@ export const AnimationSystem: SystemFn = (context) => {
         hurtbox.height = 124;
       }
     }
+
+    const renderKey = context.entitiesMeta.get(entity)?.renderKey;
+    if (!renderKey) {
+      continue;
+    }
+    const binding = ASSET_MANIFEST.entityAnimationBindings[renderKey];
+    if (!binding) {
+      continue;
+    }
+    const animationSet = ASSET_MANIFEST.animationSets[binding.animationSetId];
+    if (!animationSet) {
+      continue;
+    }
+
+    const desiredState = stateByIndex[AnimationComponent.stateAnim[entity]] ?? 'idle';
+    const runtime =
+      context.animationRuntime.get(entity) ??
+      createAnimationRuntimeState(animationSet, animationSet.fallbackState);
+    stepAnimationRuntime(runtime, animationSet, desiredState, context.deltaMs);
+    AnimationComponent.frameIndex[entity] = runtime.frameCursor;
+    AnimationComponent.elapsed[entity] = runtime.frameElapsedMs;
+    context.animationRuntime.set(entity, runtime);
   }
 };

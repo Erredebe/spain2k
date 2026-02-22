@@ -44,5 +44,15 @@
 
 - [ ] Animated title screen.
 - [ ] Character select works for 1P/2P.
+- [ ] Character select previews are animated from runtime atlas.
 - [ ] HUD bars animate and reflect state.
+- [ ] HUD input hints switch between keyboard and gamepad prompts.
 - [ ] Credits include CC-BY attributions.
+
+## Controls
+
+- [ ] P1 works on keyboard and gamepad 0.
+- [ ] P2 works on keyboard and gamepad 1 in co-op.
+- [ ] Analog deadzone prevents drift and can be adjusted in title options.
+- [ ] Keyboard remap validates conflicts per player.
+- [ ] Remap and input options persist after restart.

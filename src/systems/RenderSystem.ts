@@ -7,6 +7,7 @@ import {
   RenderObjectComponent,
 } from '../components';
 import { GAME_BALANCE } from '../config/balance';
+import { VISUAL_SCALE_PROFILES } from '../config/animations';
 import { isInsideCameraBounds } from '../utils/culling';
 import { ENTITY_TEXTURE_REFS, TEXTURE_KEY_BY_INDEX } from '../assets/manifest';
 import type { SystemFn } from './types';
@@ -32,12 +33,15 @@ export const RenderSystem: SystemFn = (context) => {
     const y = TransformComponent.y[entity] + TransformComponent.z[entity];
     const textureId = TEXTURE_KEY_BY_INDEX[SpriteComponent.textureIndex[entity]];
     const runtimeTexture = textureId ? ENTITY_TEXTURE_REFS[textureId] : undefined;
+    const runtimeAnimationFrame = context.animationRuntime.get(entity)?.frameName;
+    const targetTextureKey = runtimeTexture?.textureKey;
+    const targetFrameName = runtimeAnimationFrame ?? runtimeTexture?.frame;
     if (
-      runtimeTexture &&
-      (render.sprite.texture.key !== runtimeTexture.textureKey ||
-        (runtimeTexture.frame !== undefined && render.sprite.frame.name !== runtimeTexture.frame))
+      targetTextureKey &&
+      (render.sprite.texture.key !== targetTextureKey ||
+        (targetFrameName !== undefined && render.sprite.frame.name !== targetFrameName))
     ) {
-      render.sprite.setTexture(runtimeTexture.textureKey, runtimeTexture.frame);
+      render.sprite.setTexture(targetTextureKey, targetFrameName);
     }
 
     const visible = isInsideCameraBounds(
@@ -58,9 +62,12 @@ export const RenderSystem: SystemFn = (context) => {
     render.sprite.setDepth(
       TransformComponent.y[entity] + 150 + (HealthComponent.isAlive[entity] === 1 ? 0 : -1),
     );
-    render.shadow.setPosition(x, TransformComponent.y[entity] + 80);
+    const profileId = context.entitiesMeta.get(entity)?.visualScaleProfileId ?? 'technical';
+    const profile = VISUAL_SCALE_PROFILES[profileId] ?? VISUAL_SCALE_PROFILES.technical;
+    render.shadow.setPosition(x, TransformComponent.y[entity] + profile.shadowYOffset);
     render.shadow.setDepth(TransformComponent.y[entity] - 5);
-    render.shadow.setScale(1 - Math.abs(TransformComponent.z[entity]) / 420);
+    const zScale = Math.max(0.25, 1 - Math.abs(TransformComponent.z[entity]) / 420);
+    render.shadow.setScale(profile.shadowScale * zScale);
 
     render.sprite.setScale(TransformComponent.scaleX[entity], TransformComponent.scaleY[entity]);
     render.sprite.setRotation(TransformComponent.rotation[entity]);

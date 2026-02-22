@@ -16,6 +16,7 @@ interface CreateContextOptions {
   audio: AudioManager;
   bossDefinition: BossDefinition;
   controls: GameEcsContext['controls'];
+  input: GameEcsContext['inputSettings'];
 }
 
 export const createEcsContext = (
@@ -33,6 +34,7 @@ export const createEcsContext = (
   hitboxes: new Map(),
   hurtboxes: new Map(),
   inputBuffers: new Map(),
+  animationRuntime: new Map(),
   activeAttacks: new Map(),
   pendingDestroy: new Set<number>(),
   spawnRuntime: {
@@ -56,5 +58,20 @@ export const createEcsContext = (
   bossDefinition: options.bossDefinition,
   remapArmed: false,
   controls: options.controls,
+  inputSettings: options.input,
+  inputAssignments: {
+    1: {
+      playerIndex: 1,
+      preferredGamepadIndex: 0,
+      activeDevice: options.input.lastDeviceByPlayer.p1,
+      lastInputAtMs: 0,
+    },
+    2: {
+      playerIndex: 2,
+      preferredGamepadIndex: 1,
+      activeDevice: options.input.lastDeviceByPlayer.p2,
+      lastInputAtMs: 0,
+    },
+  },
   pendingHits: [],
 });

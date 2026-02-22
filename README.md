@@ -69,7 +69,7 @@ See `docs/ARCHITECTURE.md` for frame flow and system ordering.
 
 ### Player 1
 
-- Move: Arrow keys
+- Move: `ArrowLeft ArrowRight ArrowUp ArrowDown`
 - Jump: `Space`
 - Light: `J`
 - Heavy: `K`
@@ -79,16 +79,31 @@ See `docs/ARCHITECTURE.md` for frame flow and system ordering.
 
 ### Player 2 (co-op)
 
-- Move: `W A S D`
+- Move: `A D W S`
 - Jump: `R`
 - Light: `F`
 - Heavy: `G`
 - Grab: `T`
 - Special: `Y`
+- Pause: `Tab`
 
-### Quick remap
+### Gamepad (Web Standard mapping)
 
-- In combat, `F1` swaps P1 `Light`/`Heavy` and persists to save data.
+- Move: D-Pad (`12 13 14 15`) or left stick axes (deadzone configurable).
+- Jump: `0`
+- Light: `2`
+- Heavy: `3`
+- Grab: `1`
+- Special: `5`
+- Pause: `9`
+
+### Remap and input options
+
+- `Title -> O` opens control options.
+- Keyboard remap per player with conflict validation.
+- Deadzone setting (`[` / `]`) persisted in save.
+- Vibration toggle (`V`) persisted in save.
+- Active input device per player (keyboard/gamepad) is tracked and used for HUD hints.
 
 ## Save Data
 

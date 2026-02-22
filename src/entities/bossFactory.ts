@@ -7,10 +7,10 @@ import {
   EnemyTag,
   SpriteComponent,
   TeamComponent,
-  TransformComponent,
 } from '../components';
 import type { GameEcsContext } from '../systems/types';
 import { TEXTURE_INDEX } from '../assets/manifest';
+import { ENTITY_ANIMATION_BINDINGS } from '../config/animations';
 import { createBaseEntity } from './common';
 
 export const createFinalBoss = (context: GameEcsContext, x: number, y: number): number => {
@@ -52,8 +52,6 @@ export const createFinalBoss = (context: GameEcsContext, x: number, y: number): 
   BossComponent.aoeCooldownMs[entity] = boss.phases[0].aoeCooldownMs;
   BossComponent.dashCooldownMs[entity] = boss.phases[0].dashCooldownMs;
   BossComponent.enraged[entity] = 0;
-  TransformComponent.scaleX[entity] = 0.29;
-  TransformComponent.scaleY[entity] = 0.29;
   SpriteComponent.tint[entity] = 0xb91c1c;
   TeamComponent.value[entity] = 2;
 
@@ -63,6 +61,7 @@ export const createFinalBoss = (context: GameEcsContext, x: number, y: number): 
     isPlayer: false,
     isBoss: true,
     weight: 2.4,
+    visualScaleProfileId: ENTITY_ANIMATION_BINDINGS['boss-cabecilla']?.visualScaleProfileId,
   });
   context.activeBossEntity = entity;
 

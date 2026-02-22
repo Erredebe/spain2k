@@ -1,6 +1,7 @@
 import type Phaser from 'phaser';
 import { addComponent, addEntity } from 'bitecs';
 import { ENTITY_TEXTURE_REFS } from '../assets/manifest';
+import { ENTITY_ANIMATION_BINDINGS, VISUAL_SCALE_PROFILES } from '../config/animations';
 import {
   ActiveEntityComponent,
   AnimationComponent,
@@ -19,7 +20,11 @@ import type { GameEcsContext } from '../systems/types';
 import type { HurtboxRuntime, RenderObjectRef } from '../components/runtimeStores';
 
 let renderObjectCounter = 1;
-const BASE_ENTITY_SCALE = 0.24;
+
+const resolveVisualProfile = (textureKey: string) => {
+  const profileId = ENTITY_ANIMATION_BINDINGS[textureKey]?.visualScaleProfileId ?? 'technical';
+  return VISUAL_SCALE_PROFILES[profileId] ?? VISUAL_SCALE_PROFILES.technical;
+};
 
 export const createRenderObject = (
   scene: Phaser.Scene,
@@ -28,15 +33,22 @@ export const createRenderObject = (
   y: number,
 ): RenderObjectRef => {
   const runtimeTexture = ENTITY_TEXTURE_REFS[textureKey] ?? { textureKey };
-  const shadow = scene.add.ellipse(x, y + 78, 125, 36, 0x000000, 0.25).setDepth(y - 0.01);
+  const profile = resolveVisualProfile(textureKey);
+  const shadow = scene.add
+    .ellipse(x, y + profile.shadowYOffset, 120, 34, 0x000000, 0.24)
+    .setDepth(y - 0.01)
+    .setScale(profile.shadowScale);
   const sprite = scene.add
     .image(x, y, runtimeTexture.textureKey, runtimeTexture.frame)
-    .setOrigin(0.5, 0.87)
+    .setOrigin(0.5, 0.9)
     .setDepth(y);
   return {
     id: renderObjectCounter++,
     sprite,
     shadow,
+    shadowBaseWidth: 120,
+    shadowBaseHeight: 34,
+    shadowOffsetY: profile.shadowYOffset,
   };
 };
 
@@ -59,6 +71,7 @@ interface CreateBaseEntityInput {
 
 export const createBaseEntity = (input: CreateBaseEntityInput): number => {
   const { context } = input;
+  const profile = resolveVisualProfile(input.textureKey);
   const entity = addEntity(context.world);
   addComponent(context.world, ActiveEntityComponent, entity);
   addComponent(context.world, TransformComponent, entity);
@@ -76,8 +89,8 @@ export const createBaseEntity = (input: CreateBaseEntityInput): number => {
   TransformComponent.x[entity] = input.x;
   TransformComponent.y[entity] = input.y;
   TransformComponent.z[entity] = 0;
-  TransformComponent.scaleX[entity] = BASE_ENTITY_SCALE;
-  TransformComponent.scaleY[entity] = BASE_ENTITY_SCALE;
+  TransformComponent.scaleX[entity] = profile.scale;
+  TransformComponent.scaleY[entity] = profile.scale;
   TransformComponent.rotation[entity] = 0;
   TransformComponent.facing[entity] = 1;
 

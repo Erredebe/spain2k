@@ -24,6 +24,12 @@ export class LevelScene extends Phaser.Scene {
   private levelIndex = 0;
   private resultAtMs = -1;
   private resultType: 'victory' | 'defeat' | null = null;
+  private paused = false;
+  private pauseOverlay: Phaser.GameObjects.Container | null = null;
+  private pausePadPressedP1 = false;
+  private pausePadPressedP2 = false;
+  private pauseEscKey: Phaser.Input.Keyboard.Key | null = null;
+  private pauseTabKey: Phaser.Input.Keyboard.Key | null = null;
 
   constructor() {
     super(SceneKeys.Level);
@@ -41,6 +47,8 @@ export class LevelScene extends Phaser.Scene {
     this.buildBackground(level.backgroundStyle);
     this.cameras.main.setBounds(0, 0, 1920, 1080);
     this.cameras.main.setZoom(1);
+    this.pauseEscKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ESC) ?? null;
+    this.pauseTabKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.TAB) ?? null;
 
     let audio = this.registry.get('audioManager') as AudioManager | undefined;
     if (!audio) {
@@ -60,6 +68,7 @@ export class LevelScene extends Phaser.Scene {
       audio,
       bossDefinition: FINAL_BOSS,
       controls: save.controls,
+      input: save.input,
     });
     this.scheduler = new SystemScheduler(OrderedSystems);
 
@@ -94,7 +103,6 @@ export class LevelScene extends Phaser.Scene {
         hud.showToast(`P${playerIndex}: ${t(this.context?.locale ?? 'es', 'specialReady')}`, 900);
       }
     });
-
     this.context.eventBus.emit('audio:music-switch', { musicKey: level.musicKey });
     this.context.hud.setSubtitle(
       this.context.locale === 'es' ? level.introEs : level.introEn,
@@ -112,6 +120,14 @@ export class LevelScene extends Phaser.Scene {
     }
     this.context.nowMs = time;
     this.context.deltaMs = Math.min(delta, 33);
+
+    if (this.consumePauseShortcut()) {
+      this.togglePause();
+    }
+    if (this.paused) {
+      this.context.hud.update(this.context.nowMs);
+      return;
+    }
 
     this.scheduler.update(this.context);
     this.updateCamera();
@@ -250,9 +266,64 @@ export class LevelScene extends Phaser.Scene {
     });
   }
 
+  private consumePauseShortcut(): boolean {
+    const keyboardPressed =
+      (this.pauseEscKey ? Phaser.Input.Keyboard.JustDown(this.pauseEscKey) : false) ||
+      (this.pauseTabKey ? Phaser.Input.Keyboard.JustDown(this.pauseTabKey) : false);
+    const pads = this.input.gamepad?.gamepads ?? [];
+    const p1PadPressed = pads[0]?.buttons[9]?.pressed ?? false;
+    const p2PadPressed = pads[1]?.buttons[9]?.pressed ?? false;
+    const gamepadToggle =
+      (p1PadPressed && !this.pausePadPressedP1) || (p2PadPressed && !this.pausePadPressedP2);
+    this.pausePadPressedP1 = p1PadPressed;
+    this.pausePadPressedP2 = p2PadPressed;
+    return keyboardPressed || gamepadToggle;
+  }
+
+  private togglePause(): void {
+    this.paused = !this.paused;
+    if (!this.pauseOverlay) {
+      const panel = this.add.rectangle(960, 540, 980, 420, 0x020617, 0.82).setDepth(1400);
+      panel.setStrokeStyle(2, 0x67e8f9, 0.6);
+      const title = this.add
+        .text(960, 410, this.context?.locale === 'es' ? 'PAUSA' : 'PAUSED', {
+          fontFamily: 'Trebuchet MS',
+          fontSize: '56px',
+          color: '#f8fafc',
+          fontStyle: 'bold',
+        })
+        .setOrigin(0.5)
+        .setDepth(1401);
+      const body = this.add
+        .text(
+          960,
+          500,
+          this.context?.locale === 'es'
+            ? 'ESC/TAB o boton 9 para continuar\nRemapeo y deadzone: menu principal (tecla O)'
+            : 'ESC/TAB or button 9 to continue\nRemap and deadzone: title menu (key O)',
+          {
+            fontFamily: 'Trebuchet MS',
+            fontSize: '24px',
+            color: '#cbd5e1',
+            align: 'center',
+          },
+        )
+        .setOrigin(0.5)
+        .setDepth(1401);
+      this.pauseOverlay = this.add.container(0, 0, [panel, title, body]).setVisible(false);
+    }
+    this.pauseOverlay.setVisible(this.paused);
+    this.context?.hud.showToast(this.paused ? 'PAUSE' : 'RESUME', 600);
+  }
+
   shutdown(): void {
+    this.pauseOverlay?.destroy(true);
+    this.pauseOverlay = null;
     this.context?.hud.destroy();
     this.context = null;
     this.scheduler = null;
+    this.paused = false;
+    this.pausePadPressedP1 = false;
+    this.pausePadPressedP2 = false;
   }
 }

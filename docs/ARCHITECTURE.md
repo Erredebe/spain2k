@@ -45,6 +45,9 @@ src/
 - Context builder: `src/core/ecs/world.ts`
 - Scheduler: `src/core/ecs/scheduler.ts`
 - Event bus: `src/core/events/eventBus.ts`
+- Runtime stores:
+  - `animationRuntime` (state/clip/frame cursor by entity)
+  - `inputAssignments` (active device by player, gamepad preference, last input timestamp)
 
 ## Scene Responsibilities
 
@@ -61,6 +64,9 @@ src/
 - Validation helpers: `src/assets/validation.ts`
 - Audio runtime: `src/audio/audioManager.ts` (`howler`)
 - Versioned files served from `public/assets/**`.
+- Entity animation source of truth:
+  - `src/config/animations/index.ts`
+  - atlas: `public/assets/atlases/entities-anim/entities-anim.(png|json)`
 
 ## Persistence
 
@@ -69,6 +75,7 @@ src/
   - locale
   - accessibility settings
   - control mapping
+  - input settings (`deadzone`, vibration, last active device per player)
 
 ## Performance Practices
 

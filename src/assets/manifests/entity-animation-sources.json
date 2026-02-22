@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "heavy",
+      "url": "https://opengameart.org/sites/default/files/Orangeblack.png",
+      "license": "CC0",
+      "author": "Puffolotti",
+      "source": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/fighting-character-template-mustermann-2-a001aaaa001-karate"
+    },
+    {
+      "id": "technical",
+      "url": "https://opengameart.org/sites/default/files/R1-Spritesheet.png",
+      "license": "CC0",
+      "author": "Puffolotti",
+      "source": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/complete-komato-devastator-2-for-platformers-or-fighting-games-alt"
+    },
+    {
+      "id": "agile",
+      "url": "https://opengameart.org/sites/default/files/Spritesheet_7.png",
+      "license": "CC0",
+      "author": "Puffolotti",
+      "source": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/human-woman-wearing-new-komato-armor-shoto-cretin-fighting-style"
+    }
+  ]
+}
+

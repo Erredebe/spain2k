@@ -15,6 +15,10 @@
 
 Canonical inventory:
 - `src/config/licenses/assets-licenses.json`
+- Packed runtime atlases:
+  - `public/assets/atlases/entities-anim/entities-anim.(png|json)`
+  - `public/assets/atlases/effects/effects.(png|json)`
+  - `public/assets/atlases/ui/ui.(png|json)`
 
 ## Source Sets
 
@@ -26,6 +30,9 @@ Canonical inventory:
   - https://opengameart.org/content/complete-komato-devastator-2-for-platformers-or-fighting-games-alt
 - Human woman with komato armor (Puffolotti):
   - https://opengameart.org/content/human-woman-wearing-new-komato-armor-shoto-cretin-fighting-style
+
+Runtime extraction sources manifest:
+- `src/assets/manifests/entity-animation-sources.json`
 
 ### Backgrounds (CC-BY / CC0)
 

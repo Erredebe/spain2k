@@ -2,6 +2,8 @@ export type Locale = 'es' | 'en';
 
 export type GameplayDifficulty = 'adaptive-normal';
 
+export type InputDeviceType = 'keyboard' | 'gamepad';
+
 export type AttackKind =
   | 'light-1'
   | 'light-2'
@@ -202,6 +204,8 @@ export interface InputBinding {
   action: PlayerAction;
   keyboard: string;
   gamepadButton: number;
+  allowAxis?: boolean;
+  displayLabel?: string;
 }
 
 export interface ControlProfile {
@@ -229,6 +233,14 @@ export interface SaveDataV1 {
     p1: ControlProfile;
     p2: ControlProfile;
   };
+  input: {
+    deadzone: number;
+    vibrationEnabled: boolean;
+    lastDeviceByPlayer: {
+      p1: InputDeviceType;
+      p2: InputDeviceType;
+    };
+  };
 }
 
 export interface AtlasDefinition {
@@ -247,10 +259,60 @@ export interface AudioDefinition {
   category: 'music' | 'sfx';
 }
 
+export interface AnimationFrameRef {
+  atlasKey: string;
+  frame: string;
+}
+
+export interface AnimationClipDefinition {
+  id: string;
+  state: AnimationState;
+  fps: number;
+  loop: boolean;
+  holdLastFrame?: boolean;
+  frames: AnimationFrameRef[];
+}
+
+export interface AnimationSetDefinition {
+  id: string;
+  fallbackState: AnimationState;
+  clips: Partial<Record<AnimationState, AnimationClipDefinition>>;
+}
+
+export interface VisualScaleProfile {
+  id: string;
+  scale: number;
+  shadowScale: number;
+  shadowYOffset: number;
+}
+
+export interface EntityAnimationBinding {
+  entityKey: string;
+  animationSetId: string;
+  visualScaleProfileId: string;
+}
+
+export type GamepadLayoutLabel = 'web-standard';
+
+export interface ControlGlyphSet {
+  keyboard: Partial<Record<PlayerAction, string>>;
+  gamepad: Partial<Record<PlayerAction, string>>;
+}
+
+export interface InputDeviceAssignment {
+  playerIndex: 1 | 2;
+  preferredGamepadIndex: number;
+  activeDevice: InputDeviceType;
+  lastInputAtMs: number;
+}
+
 export interface AssetManifest {
   images: Record<string, string>;
   atlases: Record<string, AtlasDefinition>;
   audio: Record<string, AudioDefinition>;
+  animationSets: Record<string, AnimationSetDefinition>;
+  entityAnimationBindings: Record<string, EntityAnimationBinding>;
+  requiredAnimationFrames: string[];
   requiredImageKeys: string[];
   requiredAudioKeys: string[];
 }

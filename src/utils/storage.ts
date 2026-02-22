@@ -29,6 +29,14 @@ export const createDefaultSave = (): SaveDataV1 => ({
       bindings: DEFAULT_CONTROLS.p2.bindings.map((binding) => ({ ...binding })),
     },
   },
+  input: {
+    deadzone: 0.22,
+    vibrationEnabled: true,
+    lastDeviceByPlayer: {
+      p1: 'keyboard',
+      p2: 'keyboard',
+    },
+  },
 });
 
 export const loadSave = (): SaveDataV1 => {
@@ -53,6 +61,28 @@ export const loadSave = (): SaveDataV1 => {
       accessibility: {
         ...initial.accessibility,
         ...parsed.accessibility,
+      },
+      controls: {
+        p1: {
+          playerIndex: 1,
+          bindings: parsed.controls?.p1?.bindings?.length
+            ? parsed.controls.p1.bindings.map((binding) => ({ ...binding }))
+            : initial.controls.p1.bindings.map((binding) => ({ ...binding })),
+        },
+        p2: {
+          playerIndex: 2,
+          bindings: parsed.controls?.p2?.bindings?.length
+            ? parsed.controls.p2.bindings.map((binding) => ({ ...binding }))
+            : initial.controls.p2.bindings.map((binding) => ({ ...binding })),
+        },
+      },
+      input: {
+        ...initial.input,
+        ...parsed.input,
+        lastDeviceByPlayer: {
+          ...initial.input.lastDeviceByPlayer,
+          ...parsed.input?.lastDeviceByPlayer,
+        },
       },
     };
   } catch {
@@ -85,5 +115,11 @@ export const saveLanguage = (language: Locale): void => {
 export const saveControls = (controls: SaveDataV1['controls']): void => {
   const save = loadSave();
   save.controls = controls;
+  persistSave(save);
+};
+
+export const saveInputSettings = (input: SaveDataV1['input']): void => {
+  const save = loadSave();
+  save.input = input;
   persistSave(save);
 };

@@ -1,14 +1,5 @@
 {
   "images": {
-    "player-heavy": "/assets/images/entities/player-heavy.png",
-    "player-technical": "/assets/images/entities/player-technical.png",
-    "player-agile": "/assets/images/entities/player-agile.png",
-    "enemy-brawler": "/assets/images/entities/enemy-brawler.png",
-    "enemy-rusher": "/assets/images/entities/enemy-rusher.png",
-    "enemy-tank": "/assets/images/entities/enemy-tank.png",
-    "enemy-armed": "/assets/images/entities/enemy-armed.png",
-    "enemy-ranged": "/assets/images/entities/enemy-ranged.png",
-    "boss-cabecilla": "/assets/images/entities/boss-cabecilla.png",
     "bg-market": "/assets/images/backgrounds/bg-market.png",
     "bg-metro": "/assets/images/backgrounds/bg-metro.png",
     "bg-port": "/assets/images/backgrounds/bg-port.png",
@@ -24,6 +15,20 @@
     "ui-bar-bg": "/assets/images/ui/ui-bar-bg.png",
     "ui-bar-fill": "/assets/images/ui/ui-bar-fill.png",
     "ui-panel": "/assets/images/ui/ui-panel.png"
+  },
+  "atlases": {
+    "entities-anim": {
+      "png": "/assets/atlases/entities-anim/entities-anim.png",
+      "json": "/assets/atlases/entities-anim/entities-anim.json"
+    },
+    "effects": {
+      "png": "/assets/atlases/effects/effects.png",
+      "json": "/assets/atlases/effects/effects.json"
+    },
+    "ui": {
+      "png": "/assets/atlases/ui/ui.png",
+      "json": "/assets/atlases/ui/ui.json"
+    }
   },
   "audio": {
     "market-theme": {

@@ -6,6 +6,10 @@ const ROOT = process.cwd();
 const LICENSES_PATH = path.join(ROOT, 'src/config/licenses/assets-licenses.json');
 const ASSETS_ROOT = path.join(ROOT, 'public/assets');
 const PRELOAD_SCENE_PATH = path.join(ROOT, 'src/scenes/PreloadScene.ts');
+const ENTITIES_ATLAS_PATH = path.join(
+  ROOT,
+  'public/assets/atlases/entities-anim/entities-anim.json',
+);
 
 const allowedLicenses = new Set(['CC0', 'CC-BY']);
 
@@ -40,6 +44,9 @@ if (!fs.existsSync(LICENSES_PATH)) {
 }
 if (!fs.existsSync(ASSETS_ROOT)) {
   fail([`missing directory: ${toRelativePosix(ASSETS_ROOT)}`]);
+}
+if (!fs.existsSync(ENTITIES_ATLAS_PATH)) {
+  fail([`missing entities animation atlas: ${toRelativePosix(ENTITIES_ATLAS_PATH)}`]);
 }
 
 const records = JSON.parse(fs.readFileSync(LICENSES_PATH, 'utf8'));
@@ -94,6 +101,41 @@ for (const assetFile of assetFiles) {
 for (const licensedPath of recordByPath.keys()) {
   if (!assetFiles.includes(licensedPath)) {
     errors.push(`license record references non-versioned file ${licensedPath}`);
+  }
+}
+
+const requiredStates = [
+  'idle',
+  'walk',
+  'run',
+  'jump',
+  'fall',
+  'light-combo-1',
+  'light-combo-2',
+  'light-combo-3',
+  'heavy',
+  'air-attack',
+  'grab',
+  'throw',
+  'special',
+  'hurt',
+  'knockdown',
+  'recovery',
+  'victory',
+];
+const requiredSets = ['heavy', 'technical', 'agile'];
+const atlasJson = JSON.parse(fs.readFileSync(ENTITIES_ATLAS_PATH, 'utf8'));
+const atlasFrameNames = new Set(
+  (atlasJson.textures ?? []).flatMap((texture) => (texture.frames ?? []).map((frame) => frame.filename)),
+);
+const atlasFrameNameList = Array.from(atlasFrameNames);
+for (const setId of requiredSets) {
+  for (const state of requiredStates) {
+    const prefix = `${setId}.${state}.`;
+    const hasAny = atlasFrameNameList.some((frameName) => frameName.startsWith(prefix));
+    if (!hasAny) {
+      errors.push(`missing animation coverage in atlas for ${prefix}*`);
+    }
   }
 }
 

@@ -42,6 +42,8 @@ export class PreloadScene extends Phaser.Scene {
     assertRuntimeAssetsLoaded(ASSET_MANIFEST, {
       hasImage: (key) => this.textures.exists(key),
       hasAudio: (key) => this.cache.audio.exists(key),
+      hasAtlas: (key) => this.textures.exists(key),
+      hasAtlasFrame: (atlasKey, frame) => this.textures.get(atlasKey).has(frame),
     });
 
     this.scene.start(SceneKeys.Title);

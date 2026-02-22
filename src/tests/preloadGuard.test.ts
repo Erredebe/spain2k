@@ -6,7 +6,14 @@ const baseManifest: AssetManifest = {
   images: {
     hero: '/assets/hero.png',
   },
-  atlases: {},
+  atlases: {
+    'entities-anim': {
+      key: 'entities-anim',
+      texturePath: '/assets/entities-anim.png',
+      atlasPath: '/assets/entities-anim.json',
+      requiredFrames: ['hero.idle.00'],
+    },
+  },
   audio: {
     theme: {
       key: 'theme',
@@ -16,6 +23,29 @@ const baseManifest: AssetManifest = {
       oggPath: '/assets/theme.ogg',
     },
   },
+  animationSets: {
+    hero: {
+      id: 'hero',
+      fallbackState: 'idle',
+      clips: {
+        idle: {
+          id: 'hero.idle',
+          state: 'idle',
+          fps: 8,
+          loop: true,
+          frames: [{ atlasKey: 'entities-anim', frame: 'hero.idle.00' }],
+        },
+      },
+    },
+  },
+  entityAnimationBindings: {
+    hero: {
+      entityKey: 'hero',
+      animationSetId: 'hero',
+      visualScaleProfileId: 'hero',
+    },
+  },
+  requiredAnimationFrames: ['hero.idle.00'],
   requiredImageKeys: ['hero'],
   requiredAudioKeys: ['theme'],
 };
@@ -34,7 +64,20 @@ describe('preload guards', () => {
       assertRuntimeAssetsLoaded(baseManifest, {
         hasImage: () => true,
         hasAudio: () => false,
+        hasAtlas: () => true,
+        hasAtlasFrame: () => true,
       }),
     ).toThrow(/missing loaded audio/i);
+  });
+
+  it('fails when required animation frame was not loaded from atlas', () => {
+    expect(() =>
+      assertRuntimeAssetsLoaded(baseManifest, {
+        hasImage: () => true,
+        hasAudio: () => true,
+        hasAtlas: () => true,
+        hasAtlasFrame: () => false,
+      }),
+    ).toThrow(/missing loaded animation frame/i);
   });
 });

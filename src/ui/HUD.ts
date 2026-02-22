@@ -9,6 +9,7 @@ interface PlayerHudWidgets {
   specialBg: Phaser.GameObjects.Image;
   specialFill: Phaser.GameObjects.Image;
   comboLabel: Phaser.GameObjects.Text;
+  inputHint: Phaser.GameObjects.Text;
 }
 
 export class HudController {
@@ -72,7 +73,15 @@ export class HudController {
         })
         .setScrollFactor(0)
         .setDepth(1002);
-      return { label, hpBg, hpFill, specialBg, specialFill, comboLabel };
+      const inputHint = scene.add
+        .text(xOffset, y + 56, '', {
+          color: '#67e8f9',
+          fontFamily: 'Trebuchet MS',
+          fontSize: `${Math.floor(15 * scale)}px`,
+        })
+        .setScrollFactor(0)
+        .setDepth(1002);
+      return { label, hpBg, hpFill, specialBg, specialFill, comboLabel, inputHint };
     };
 
     this.players = {
@@ -120,6 +129,10 @@ export class HudController {
     this.players[playerIndex].comboLabel.setText(`Combo ${combo}`);
   }
 
+  setInputHint(playerIndex: 1 | 2, text: string): void {
+    this.players[playerIndex].inputHint.setText(text);
+  }
+
   setSubtitle(text: string, durationMs: number): void {
     this.subtitle.setText(text).setVisible(true);
     this.subtitleHideAt = this.scene.time.now + durationMs;
@@ -146,6 +159,7 @@ export class HudController {
     this.players[2].specialBg.setVisible(enabled);
     this.players[2].specialFill.setVisible(enabled);
     this.players[2].comboLabel.setVisible(enabled);
+    this.players[2].inputHint.setVisible(enabled);
   }
 
   destroy(): void {
@@ -156,6 +170,7 @@ export class HudController {
       widgets.specialBg.destroy();
       widgets.specialFill.destroy();
       widgets.comboLabel.destroy();
+      widgets.inputHint.destroy();
     });
     this.subtitle.destroy();
     this.toast.destroy();

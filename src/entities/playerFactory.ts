@@ -8,6 +8,7 @@ import {
 } from '../components';
 import type { GameEcsContext } from '../systems/types';
 import { TEXTURE_INDEX } from '../assets/manifest';
+import { ENTITY_ANIMATION_BINDINGS } from '../config/animations';
 import { findCharacterById } from '../config/characters';
 import { createBaseEntity } from './common';
 
@@ -60,6 +61,7 @@ export const createPlayer = (
     playerIndex,
     isBoss: false,
     weight: 1,
+    visualScaleProfileId: ENTITY_ANIMATION_BINDINGS[textureKey]?.visualScaleProfileId,
   });
   context.inputBuffers.set(entity, {
     last: {

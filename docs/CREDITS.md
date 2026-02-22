@@ -8,6 +8,10 @@
 ## External Asset Credits
 
 - Character sprites (CC0): Puffolotti (OpenGameArt)
+- Character animation sheets packed into runtime atlas:
+  - Mustermann 2 Karate
+  - Komato Devastator 2
+  - Human woman with Komato armor
 - Level backgrounds:
   - Fiulo (CC-BY) - Glowing City Background
   - gfx0 (CC-BY) - Background Dark City

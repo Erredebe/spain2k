@@ -3,6 +3,7 @@ import { AIComponent, AIStateMap, EnemyTag, TeamComponent } from '../components'
 import { findEnemyById } from '../config/enemies';
 import type { GameEcsContext } from '../systems/types';
 import { TEXTURE_INDEX } from '../assets/manifest';
+import { ENTITY_ANIMATION_BINDINGS } from '../config/animations';
 import { createBaseEntity } from './common';
 
 export const createEnemy = (
@@ -54,6 +55,7 @@ export const createEnemy = (
     isPlayer: false,
     isBoss: false,
     weight: enemy.weight,
+    visualScaleProfileId: ENTITY_ANIMATION_BINDINGS[textureKey]?.visualScaleProfileId,
   });
 
   return entity;

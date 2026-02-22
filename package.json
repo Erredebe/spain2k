@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "assets:sync": "node scripts/assets-sync.mjs",
-    "assets:atlas": "node scripts/assets-atlas.mjs",
+    "assets:extract-entities": "node scripts/assets-extract-entities.mjs",
+    "assets:atlas": "npm run assets:extract-entities && node scripts/assets-atlas.mjs",
     "assets:verify": "node scripts/assets-verify.mjs"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "free-tex-packer-cli": "^0.3.0",
+    "pngjs": "^7.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",

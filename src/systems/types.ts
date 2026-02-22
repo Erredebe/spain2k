@@ -1,8 +1,15 @@
 import type Phaser from 'phaser';
 import type { IWorld } from 'bitecs';
 import type { EventBus } from '../core/events/eventBus';
-import type { BossDefinition, LevelDefinition, Locale, SaveDataV1 } from '../config/types';
 import type {
+  BossDefinition,
+  InputDeviceAssignment,
+  LevelDefinition,
+  Locale,
+  SaveDataV1,
+} from '../config/types';
+import type {
+  AnimationRuntimeState,
   AttackRuntime,
   EntityMeta,
   HitboxRuntime,
@@ -45,6 +52,7 @@ export interface GameEcsContext {
   hitboxes: Map<number, HitboxRuntime>;
   hurtboxes: Map<number, HurtboxRuntime>;
   inputBuffers: Map<number, InputBuffer>;
+  animationRuntime: Map<number, AnimationRuntimeState>;
   activeAttacks: Map<number, AttackRuntime>;
   pendingDestroy: Set<number>;
   spawnRuntime: SpawnRuntime;
@@ -58,6 +66,8 @@ export interface GameEcsContext {
   bossDefinition: BossDefinition;
   remapArmed: boolean;
   controls: SaveDataV1['controls'];
+  inputSettings: SaveDataV1['input'];
+  inputAssignments: Record<1 | 2, InputDeviceAssignment>;
   pendingHits: Array<{ attacker: number; defender: number; hitbox: HitboxRuntime }>;
 }
 

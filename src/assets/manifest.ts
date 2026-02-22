@@ -1,3 +1,8 @@
+import {
+  ENTITY_ANIMATION_BINDINGS,
+  ENTITY_ANIMATION_SETS,
+  REQUIRED_ANIMATION_FRAMES,
+} from '../config/animations';
 import type { AssetManifest, AudioDefinition } from '../config/types';
 
 export const TEXTURE_KEYS = {
@@ -35,28 +40,30 @@ export interface TextureRuntimeRef {
   frame?: string;
 }
 
+const resolveDefaultFrame = (entityKey: string): string => {
+  const binding = ENTITY_ANIMATION_BINDINGS[entityKey];
+  const set = binding ? ENTITY_ANIMATION_SETS[binding.animationSetId] : undefined;
+  const fallbackState = set?.fallbackState ?? 'idle';
+  const firstFrame = set?.clips[fallbackState]?.frames[0];
+  return firstFrame ? firstFrame.frame : 'heavy.idle.00';
+};
+
 export const ENTITY_TEXTURE_REFS: Record<string, TextureRuntimeRef> = {
-  'player-heavy': { textureKey: 'player-heavy' },
-  'player-technical': { textureKey: 'player-technical' },
-  'player-agile': { textureKey: 'player-agile' },
-  'enemy-brawler': { textureKey: 'enemy-brawler' },
-  'enemy-rusher': { textureKey: 'enemy-rusher' },
-  'enemy-tank': { textureKey: 'enemy-tank' },
-  'enemy-armed': { textureKey: 'enemy-armed' },
-  'enemy-ranged': { textureKey: 'enemy-ranged' },
-  'boss-cabecilla': { textureKey: 'boss-cabecilla' },
+  'player-heavy': { textureKey: 'entities-anim', frame: resolveDefaultFrame('player-heavy') },
+  'player-technical': {
+    textureKey: 'entities-anim',
+    frame: resolveDefaultFrame('player-technical'),
+  },
+  'player-agile': { textureKey: 'entities-anim', frame: resolveDefaultFrame('player-agile') },
+  'enemy-brawler': { textureKey: 'entities-anim', frame: resolveDefaultFrame('enemy-brawler') },
+  'enemy-rusher': { textureKey: 'entities-anim', frame: resolveDefaultFrame('enemy-rusher') },
+  'enemy-tank': { textureKey: 'entities-anim', frame: resolveDefaultFrame('enemy-tank') },
+  'enemy-armed': { textureKey: 'entities-anim', frame: resolveDefaultFrame('enemy-armed') },
+  'enemy-ranged': { textureKey: 'entities-anim', frame: resolveDefaultFrame('enemy-ranged') },
+  'boss-cabecilla': { textureKey: 'entities-anim', frame: resolveDefaultFrame('boss-cabecilla') },
 };
 
 const IMAGE_ASSETS: Record<string, string> = {
-  'player-heavy': '/assets/images/entities/player-heavy.png',
-  'player-technical': '/assets/images/entities/player-technical.png',
-  'player-agile': '/assets/images/entities/player-agile.png',
-  'enemy-brawler': '/assets/images/entities/enemy-brawler.png',
-  'enemy-rusher': '/assets/images/entities/enemy-rusher.png',
-  'enemy-tank': '/assets/images/entities/enemy-tank.png',
-  'enemy-armed': '/assets/images/entities/enemy-armed.png',
-  'enemy-ranged': '/assets/images/entities/enemy-ranged.png',
-  'boss-cabecilla': '/assets/images/entities/boss-cabecilla.png',
   'bg-market': '/assets/images/backgrounds/bg-market.png',
   'bg-metro': '/assets/images/backgrounds/bg-metro.png',
   'bg-port': '/assets/images/backgrounds/bg-port.png',
@@ -73,6 +80,15 @@ const IMAGE_ASSETS: Record<string, string> = {
   'ui-bar-fill': '/assets/images/ui/ui-bar-fill.png',
   'ui-panel': '/assets/images/ui/ui-panel.png',
 };
+
+const ATLAS_ASSETS = {
+  'entities-anim': {
+    key: 'entities-anim',
+    texturePath: '/assets/atlases/entities-anim/entities-anim.png',
+    atlasPath: '/assets/atlases/entities-anim/entities-anim.json',
+    requiredFrames: REQUIRED_ANIMATION_FRAMES,
+  },
+} as const;
 
 const AUDIO_ASSETS: Record<string, AudioDefinition> = {
   'market-theme': {
@@ -138,8 +154,11 @@ const AUDIO_ASSETS: Record<string, AudioDefinition> = {
 
 export const ASSET_MANIFEST: AssetManifest = {
   images: IMAGE_ASSETS,
-  atlases: {},
+  atlases: ATLAS_ASSETS,
   audio: AUDIO_ASSETS,
+  animationSets: ENTITY_ANIMATION_SETS,
+  entityAnimationBindings: ENTITY_ANIMATION_BINDINGS,
+  requiredAnimationFrames: REQUIRED_ANIMATION_FRAMES,
   requiredImageKeys: Object.keys(IMAGE_ASSETS),
   requiredAudioKeys: Object.keys(AUDIO_ASSETS),
 };

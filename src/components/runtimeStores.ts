@@ -1,8 +1,10 @@
 import type Phaser from 'phaser';
 import type {
   AttackDefinition,
+  AnimationState,
   CharacterDefinition,
   EnemyDefinition,
+  InputDeviceType,
   PlayerAttackKind,
 } from '../config/types';
 
@@ -37,6 +39,14 @@ export interface InputBuffer {
   queuedAttack: PlayerAttackKind | null;
 }
 
+export interface AnimationRuntimeState {
+  currentState: AnimationState;
+  clipId: string;
+  frameCursor: number;
+  frameElapsedMs: number;
+  frameName: string;
+}
+
 export interface AttackRuntime {
   attackKey: PlayerAttackKind;
   attack: AttackDefinition;
@@ -55,10 +65,15 @@ export interface EntityMeta {
   playerIndex?: 1 | 2;
   isBoss: boolean;
   weight: number;
+  currentInputDevice?: InputDeviceType;
+  visualScaleProfileId?: string;
 }
 
 export interface RenderObjectRef {
   id: number;
   sprite: Phaser.GameObjects.Image;
   shadow: Phaser.GameObjects.Ellipse;
+  shadowBaseWidth: number;
+  shadowBaseHeight: number;
+  shadowOffsetY: number;
 }
